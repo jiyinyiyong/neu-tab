@@ -11,7 +11,8 @@
     "build-local": "shadow-cljs clj-run build.main/build-local",
     "page": "shadow-cljs clj-run build.main/page",
     "upload": "lumo -c cli/:src/ -m build.upload",
-    "ln": "cd target && rm -f entry && ln -s ../entry"
+    "ln": "cd target && rm -f entry && ln -s ../entry",
+    "crx": "cp entry/crx.json dist/manifest.json; cp entry/neu.png dist/"
   },
   "repository": {
     "type": "git",
