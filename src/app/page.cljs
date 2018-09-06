@@ -10,14 +10,14 @@
             [app.util :refer [get-env!]]))
 
 (def base-info
-  {:title (:title config/site), :icon (:icon config/site), :ssr nil, :inline-html nil})
+  {:title (:title config/site), :icon (:local-icon config/site), :ssr nil, :inline-html nil})
 
 (defn dev-page []
   (make-page
    ""
    (merge
     base-info
-    {:styles ["/entry/main.css" (:dev-ui config/site)],
+    {:styles ["/entry/main.css" (:local-ui config/site)],
      :scripts ["/client.js"],
      :inline-styles []})))
 

@@ -829,13 +829,6 @@
            "j" {:type :leaf, :by "rJG4IHzWf", :at 1536076839855, :text "\"neu-page", :id "ByN2XChq8z"}
           }
          }
-         "r" {
-          :type :expr, :by "root", :at 1527526861413, :id "HkeSAB3K1X"
-          :data {
-           "T" {:type :leaf, :by "root", :at 1527526864597, :text ":dev-ui", :id "HkeSAB3K1Xleaf"}
-           "j" {:type :leaf, :by "root", :at 1527526903571, :text "\"http://localhost:8100/main.css", :id "Hyx0Arht1X"}
-          }
-         }
          "v" {
           :type :expr, :by "root", :at 1527526865931, :id "rygq0H3YJm"
           :data {
@@ -1585,7 +1578,7 @@
            "j" {
             :type :expr, :by "root", :at 1527868492888, :id "H1rIny1eQ"
             :data {
-             "T" {:type :leaf, :author "root", :time 1508248023135, :text ":icon", :id "ByDVlsuY56r-", :at 1527868493420, :by "root"}
+             "T" {:type :leaf, :author "root", :time 1508248023135, :text ":local-icon", :id "ByDVlsuY56r-", :at 1536256585035, :by "rJG4IHzWf"}
              "j" {:type :leaf, :by "root", :at 1527868495181, :text "config/site", :id "SJUI3JyeQ"}
             }
            }
@@ -1644,7 +1637,7 @@
                  "j" {
                   :type :expr, :by "root", :at 1527526894158, :id "BkLl83Y1Q"
                   :data {
-                   "T" {:type :leaf, :author "root", :time 1507359444833, :text ":dev-ui", :id "S1ebR5eU3Z", :at 1527526895687, :by "root"}
+                   "T" {:type :leaf, :author "root", :time 1507359444833, :text ":local-ui", :id "S1ebR5eU3Z", :at 1536256548127, :by "rJG4IHzWf"}
                    "j" {:type :leaf, :by "root", :at 1527788262773, :text "config/site", :id "H1bOlUhYJm"}
                   }
                  }

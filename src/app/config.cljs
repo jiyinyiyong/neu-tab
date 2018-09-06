@@ -10,7 +10,6 @@
 
 (def site
   {:storage "neu-page",
-   :dev-ui "http://localhost:8100/main.css",
    :release-ui "http://cdn.tiye.me/favored-fonts/main.css",
    :local-ui "/cdn.tiye.me/favored-fonts/main.css",
    :cdn-url "http://cdn.tiye.me/neu-page/",

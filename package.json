@@ -11,11 +11,13 @@
     "build-local": "shadow-cljs clj-run build.main/build-local",
     "page": "shadow-cljs clj-run build.main/page",
     "upload": "lumo -c cli/:src/ -m build.upload",
-    "ln": "cd target && rm -f entry && ln -s ../entry",
-    "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main.css -q --show-progress",
-    "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
+    "ln": "cd target && rm -f entry && ln -s ../entry && cp ../entry/neu.png .",
+    "get-fonts": "cd target && wget --recursive http://cdn.tiye.me/favored-fonts/main.css -q --show-progress",
+    "get-logos": "cd target && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
+    "get2": "yarn get-fonts && yarn get-logos",
+    "cp-dist": "cp -r target/cdn.tiye.me dist/ && cp target/neu.png dist",
     "cp-resources": "cp entry/manifest.json dist/ && cp entry/neu.png dist/",
-    "crx": "yarn build-local && yarn cp-resources && yarn get-fonts && yarn get-logos"
+    "crx": "yarn build-local && yarn cp-resources && yarn get2 && yarn cp-dist"
   },
   "repository": {
     "type": "git",
