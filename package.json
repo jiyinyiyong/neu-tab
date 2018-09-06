@@ -15,9 +15,8 @@
     "get-fonts": "cd target && wget --recursive http://cdn.tiye.me/favored-fonts/main.css -q --show-progress",
     "get-logos": "cd target && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
-    "cp-dist": "cp -r target/cdn.tiye.me dist/ && cp target/neu.png dist",
-    "cp-resources": "cp entry/manifest.json dist/ && cp entry/neu.png dist/",
-    "crx": "yarn build-local && yarn cp-resources && yarn get2 && yarn cp-dist"
+    "cp-resources": "cp -r entry/manifest.json entry/neu.png target/cdn.tiye.me dist/",
+    "crx": "yarn build-local && yarn cp-resources"
   },
   "repository": {
     "type": "git",
@@ -30,6 +29,7 @@
     "shadow-cljs": "^2.6.6"
   },
   "dependencies": {
+    "dayjs": "^1.7.5",
     "shortid": "^2.2.13"
   }
 }
