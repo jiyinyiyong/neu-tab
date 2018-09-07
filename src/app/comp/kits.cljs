@@ -34,6 +34,10 @@
     :key :calcit,
     :icon "/cdn.tiye.me/logo/cirru.png",
     :link "http://calcit-editor.cirru.org"}
+   {:name "Calcit Snippets",
+    :key :calcit-snippets,
+    :icon "/cdn.tiye.me/logo/cirru.png",
+    :link "http://snippets.cirru.org"}
    {:name "Pudica",
     :key :pudica,
     :icon "/cdn.tiye.me/logo/pudica.png",
