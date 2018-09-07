@@ -30,10 +30,22 @@
     :key :copyboard,
     :icon "/cdn.tiye.me/logo/copyboard.png",
     :link "http://cp.topix.im"}
+   {:name "Calcit Editor",
+    :key :calcit,
+    :icon "/cdn.tiye.me/logo/cirru.png",
+    :link "http://calcit-editor.cirru.org"}
    {:name "Pudica",
     :key :pudica,
     :icon "/cdn.tiye.me/logo/pudica.png",
     :link "http://pudica.memkits.org"}
+   {:name "Timgrass",
+    :key :timegrass,
+    :icon "/cdn.tiye.me/logo/timegrass.png",
+    :link "http://timegrass.topix.im/"}
+   {:name "Daily",
+    :key :daily,
+    :icon "/cdn.tiye.me/logo/cumulo.png",
+    :link "http://daily.topix.im/"}
    {:name "Woodenlist",
     :key :woodenlist,
     :icon "/cdn.tiye.me/logo/woodenlist.png",
