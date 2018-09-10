@@ -1,15 +1,17 @@
+
 {
-  "short_name": "Calcit Workflow",
-  "name": "Calcit Workflow",
-  "icons": [
-    {
-      "src": "http://cdn.tiye.me/logo/mvc-works.png",
-      "sizes": "320x320"
-    }
-  ],
-  "start_url": "index.html",
-  "display": "fullscreen",
-  "orientation": "portrait",
-  "background_color": "#eeeeff",
-  "theme_color": "#eeeeff"
+  "name": "Neu page",
+  "description": "Default tab of Tiye",
+  "version": "0.2",
+  "incognito": "split",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "icons": {
+    "16": "neu.png",
+    "32": "neu.png",
+    "48": "neu.png",
+    "128": "neu.png"
+  },
+  "manifest_version": 2
 }

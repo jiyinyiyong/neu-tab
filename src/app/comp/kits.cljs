@@ -4,7 +4,7 @@
             [respo-ui.core :as ui]
             [respo.macros
              :refer
-             [defcomp cursor-> action-> mutation-> list-> <> div button textarea span]]
+             [defcomp cursor-> action-> mutation-> list-> <> div button textarea span img a]]
             [respo.comp.space :refer [=<]]
             [respo-md.comp.md :refer [comp-md]]
             [app.config :refer [dev?]]))
@@ -12,33 +12,72 @@
 (defcomp
  comp-app
  (app)
- (div
+ (a
   {:style (merge
            ui/center
-           {:background-color (hsl 200 80 80),
-            :color :white,
-            :line-height "64px",
-            :width 120,
+           {:width 120,
             :margin "0 8px 8px 0",
-            :border-radius "32px"}),
-   :on-click (fn [e d! m!] (.replace js/location (:link app)))}
-  (<> (:name app))))
+            :border-radius "32px",
+            :text-decoration :none,
+            :padding "8px 0 0 0"}),
+   :on-click (fn [e d! m!] (.replace js/location (:link app))),
+   :href (:link app)}
+  (img {:src (:icon app), :style {:width 80, :height 80}})
+  (<> (:name app) {:line-height "48px", :color (hsl 0 0 40)})))
 
 (def quick-apps
   [{:name "Copyboard",
     :key :copyboard,
-    :icon "http://cdn.tiye.me/logo/copyboard.png",
-    :link "http://cp.tiye.me"}
+    :icon "/cdn.tiye.me/logo/copyboard.png",
+    :link "http://cp.topix.im"}
+   {:name "Calcit Editor",
+    :key :calcit,
+    :icon "/cdn.tiye.me/logo/cirru.png",
+    :link "http://calcit-editor.cirru.org"}
+   {:name "Calcit Snippets",
+    :key :calcit-snippets,
+    :icon "/cdn.tiye.me/logo/cirru.png",
+    :link "http://snippets.cirru.org"}
    {:name "Pudica",
-    :key :Pudica,
-    :icon "http://cdn.tiye.me/logo/pudica.png",
-    :link "http://pudica.memkits.org"}])
+    :key :pudica,
+    :icon "/cdn.tiye.me/logo/pudica.png",
+    :link "http://pudica.memkits.org"}
+   {:name "Timgrass",
+    :key :timegrass,
+    :icon "/cdn.tiye.me/logo/timegrass.png",
+    :link "http://timegrass.topix.im/"}
+   {:name "Daily",
+    :key :daily,
+    :icon "/cdn.tiye.me/logo/cumulo.png",
+    :link "http://daily.topix.im/"}
+   {:name "Woodenlist",
+    :key :woodenlist,
+    :icon "/cdn.tiye.me/logo/woodenlist.png",
+    :link "http://wood.topix.im"}
+   {:name "Copycat",
+    :key :copycat,
+    :icon "/cdn.tiye.me/logo/memkits.png",
+    :link "http://repo.memkits.org/copycat/"}
+   {:name "EDN Formatter",
+    :key :edn-formatter,
+    :icon "/cdn.tiye.me/logo/memkits.png",
+    :link "http://repo.tiye.me/mvc-works/edn-formatter/"}
+   {:name "Diff view",
+    :key :diffview,
+    :icon "/cdn.tiye.me/logo/memkits.png",
+    :link "http://repo.memkits.org/diffview/"}
+   {:name "Manuscript",
+    :key :manuscript,
+    :icon "/cdn.tiye.me/logo/memkits.png",
+    :link "http://repo.memkits.org/manuscript/"}])
 
 (defcomp
  comp-kits
  ()
  (div
-  {:style (merge ui/row {:padding 16})}
+  {:style (merge ui/column {:padding 16, :max-width 800})}
+  (div
+   {:style {:font-family ui/font-fancy, :font-size 24, :font-weight 300, :margin-bottom 16}})
   (list->
-   {:style (merge ui/row)}
+   {:style (merge ui/row {:flex-wrap :wrap})}
    (->> quick-apps (map (fn [app] [(:key app) (comp-app app)]))))))

@@ -10,14 +10,14 @@
             [app.util :refer [get-env!]]))
 
 (def base-info
-  {:title (:title config/site), :icon (:icon config/site), :ssr nil, :inline-html nil})
+  {:title (:title config/site), :icon (:local-icon config/site), :ssr nil, :inline-html nil})
 
 (defn dev-page []
   (make-page
    ""
    (merge
     base-info
-    {:styles ["/entry/main.css" (:dev-ui config/site)],
+    {:styles ["/entry/main.css" (:local-ui config/site)],
      :scripts ["/client.js"],
      :inline-styles []})))
 
@@ -33,10 +33,11 @@
      html-content
      (merge
       base-info
-      {:styles [(:release-ui config/site)],
+      {:styles [(if local-bundle? (:local-ui config/site) (:release-ui config/site))],
        :scripts (map #(-> % :output-name prefix-cdn) assets),
        :ssr "respo-ssr",
-       :inline-styles [(slurp "./entry/main.css")]}))))
+       :inline-styles [(slurp "./entry/main.css")]}
+      (when local-bundle? {:icon (:local-icon config/site)})))))
 
 (defn main! []
   (if (contains? config/bundle-builds (get-env! "mode"))

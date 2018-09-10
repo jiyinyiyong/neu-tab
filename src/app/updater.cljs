@@ -6,4 +6,5 @@
     :states (update store :states (mutate op-data))
     :content (assoc store :content op-data)
     :hydrate-storage op-data
+    :tick (assoc store :time op-data)
     store))
