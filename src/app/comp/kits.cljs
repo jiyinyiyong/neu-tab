@@ -46,14 +46,14 @@
     :key :woodenlist,
     :icon "/cdn.tiye.me/logo/woodenlist.png",
     :link "http://wood.topix.im"}
+   {:name "Url Replacer",
+    :key :url-replacer,
+    :icon "/cdn.tiye.me/logo/mvc-works.png",
+    :link "http://repo.tiye.me/chenyong/url-replacer/"}
    {:name "Calcit Snippets",
     :key :calcit-snippets,
     :icon "/cdn.tiye.me/logo/cirru.png",
     :link "http://snippets.cirru.org"}
-   {:name "Calcit Viewer",
-    :key :calcit-viewer,
-    :icon "/cdn.tiye.me/logo/cirru.png",
-    :link "http://repo.cirru.org/calcit-viewer/"}
    {:name "Daily",
     :key :daily,
     :icon "/cdn.tiye.me/logo/cumulo.png",
