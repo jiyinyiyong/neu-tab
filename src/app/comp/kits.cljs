@@ -26,38 +26,38 @@
   (<> (:name app) {:line-height "48px", :color (hsl 0 0 40)})))
 
 (def quick-apps
-  [{:name "Copyboard",
-    :key :copyboard,
-    :icon "/cdn.tiye.me/logo/copyboard.png",
-    :link "http://cp.topix.im"}
-   {:name "Calcit Editor",
+  [{:name "Calcit Editor",
     :key :calcit,
     :icon "/cdn.tiye.me/logo/cirru.png",
     :link "http://calcit-editor.cirru.org"}
-   {:name "Calcit Snippets",
-    :key :calcit-snippets,
-    :icon "/cdn.tiye.me/logo/cirru.png",
-    :link "http://snippets.cirru.org"}
-   {:name "Pudica",
-    :key :pudica,
-    :icon "/cdn.tiye.me/logo/pudica.png",
-    :link "http://pudica.memkits.org"}
+   {:name "Copyboard",
+    :key :copyboard,
+    :icon "/cdn.tiye.me/logo/copyboard.png",
+    :link "http://cp.topix.im"}
+   {:name "Copycat",
+    :key :copycat,
+    :icon "/cdn.tiye.me/logo/copycat.png",
+    :link "http://repo.topix.im/copycat/"}
    {:name "Timgrass",
     :key :timegrass,
     :icon "/cdn.tiye.me/logo/timegrass.png",
     :link "http://timegrass.topix.im/"}
-   {:name "Daily",
-    :key :daily,
-    :icon "/cdn.tiye.me/logo/cumulo.png",
-    :link "http://daily.topix.im/"}
    {:name "Woodenlist",
     :key :woodenlist,
     :icon "/cdn.tiye.me/logo/woodenlist.png",
     :link "http://wood.topix.im"}
-   {:name "Copycat",
-    :key :copycat,
-    :icon "/cdn.tiye.me/logo/memkits.png",
-    :link "http://repo.memkits.org/copycat/"}
+   {:name "Calcit Snippets",
+    :key :calcit-snippets,
+    :icon "/cdn.tiye.me/logo/cirru.png",
+    :link "http://snippets.cirru.org"}
+   {:name "Calcit Viewer",
+    :key :calcit-viewer,
+    :icon "/cdn.tiye.me/logo/cirru.png",
+    :link "http://repo.cirru.org/calcit-viewer/"}
+   {:name "Daily",
+    :key :daily,
+    :icon "/cdn.tiye.me/logo/cumulo.png",
+    :link "http://daily.topix.im/"}
    {:name "EDN Formatter",
     :key :edn-formatter,
     :icon "/cdn.tiye.me/logo/memkits.png",
