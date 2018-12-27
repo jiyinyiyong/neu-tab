@@ -2,7 +2,7 @@
 (ns app.comp.kits
   (:require [hsl.core :refer [hsl]]
             [respo-ui.core :as ui]
-            [respo.macros
+            [respo.core
              :refer
              [defcomp cursor-> action-> mutation-> list-> <> div button textarea span img a]]
             [respo.comp.space :refer [=<]]
@@ -50,10 +50,6 @@
     :key :url-replacer,
     :icon "/cdn.tiye.me/logo/mvc-works.png",
     :link "http://repo.tiye.me/chenyong/url-replacer/"}
-   {:name "Calcit Snippets",
-    :key :calcit-snippets,
-    :icon "/cdn.tiye.me/logo/cirru.png",
-    :link "http://snippets.cirru.org"}
    {:name "Daily",
     :key :daily,
     :icon "/cdn.tiye.me/logo/cumulo.png",

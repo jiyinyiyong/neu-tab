@@ -7,16 +7,16 @@
     "watch": "shadow-cljs watch client",
     "serve": "http-server dist -s",
     "repl": "rlwrap shadow-cljs clj-repl",
+    "build-cdn": "shadow-cljs clj-run build.main/build-cdn",
     "build": "shadow-cljs clj-run build.main/build",
-    "build-local": "shadow-cljs clj-run build.main/build-local",
-    "page": "shadow-cljs clj-run build.main/page",
-    "upload": "lumo -c cli/:src/ -m build.upload",
+    "upload": "node target/upload.js",
+    "up": "yarn build-cdn && yarn upload",
     "ln": "cd target && rm -f entry && ln -s ../entry && cp ../entry/neu.png .",
     "get-fonts": "cd target && wget --recursive http://cdn.tiye.me/favored-fonts/main.css -q --show-progress",
     "get-logos": "cd target && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
     "cp-resources": "cp -r entry/manifest.json entry/neu.png target/cdn.tiye.me dist/",
-    "crx": "yarn build-local && yarn cp-resources && zip -r neu-tab.zip dist/"
+    "crx": "yarn build && yarn cp-resources && zip -r neu-tab.zip dist/"
   },
   "repository": {
     "type": "git",
@@ -26,10 +26,10 @@
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.11.1",
-    "shadow-cljs": "^2.6.10"
+    "shadow-cljs": "^2.7.9"
   },
   "dependencies": {
-    "dayjs": "^1.7.7",
-    "shortid": "^2.2.13"
+    "dayjs": "^1.7.8",
+    "shortid": "^2.2.14"
   }
 }
