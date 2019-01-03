@@ -1,4 +1,8 @@
 {
+ :users {
+  "rJG4IHzWf" {:id "rJG4IHzWf", :name "chen", :nickname "chen", :password "d41d8cd98f00b204e9800998ecf8427e", :avatar nil, :theme :star-trail}
+  "root" {:id "root", :name "root", :nickname "root", :password "d41d8cd98f00b204e9800998ecf8427e", :avatar nil, :theme :star-trail}
+ }
  :ir {
   :package "app"
   :files {
@@ -1179,28 +1183,28 @@
             :type :expr, :by "rJG4IHzWf", :at 1539226027279, :id "VTgDMn-W6N"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1539226027279, :text ":name", :id "gWnq56vdNX"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539245451554, :text "\"Url Replacer", :id "JOo7U6hDA6"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1546539114972, :text "\"FE Home", :id "JOo7U6hDA6"}
             }
            }
            "r" {
             :type :expr, :by "rJG4IHzWf", :at 1539226027279, :id "Ip92nNXhhb"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1539226027279, :text ":key", :id "xCEcWoFDp3"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539245466684, :text ":url-replacer", :id "VhEuxxlDaO"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1546539120284, :text ":fe-home", :id "VhEuxxlDaO"}
             }
            }
            "v" {
             :type :expr, :by "rJG4IHzWf", :at 1539226027279, :id "hNLUnRkN9r"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1539226027279, :text ":icon", :id "tvzbhFn_-g"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539245471531, :text "\"/cdn.tiye.me/logo/mvc-works.png", :id "SS1xUq2N2G"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1546539137372, :text "\"/cdn.tiye.me/logo/jimeng-360x360.png", :id "SS1xUq2N2G"}
             }
            }
            "x" {
             :type :expr, :by "rJG4IHzWf", :at 1539226027279, :id "EcwKP_09EV"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1539226027279, :text ":link", :id "EWsIr8WRUx"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539245460656, :text "\"http://repo.tiye.me/chenyong/url-replacer/", :id "YHpSLTXmgHZ"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1546539148353, :text "\"http://fe.jimu.io", :id "YHpSLTXmgHZ"}
             }
            }
           }
@@ -3232,15 +3236,5 @@
    }
   }
  }
- :sessions {}
- :users {
-  "rJG4IHzWf" {:id "rJG4IHzWf", :name "chen", :nickname "chen", :password "d41d8cd98f00b204e9800998ecf8427e", :avatar nil, :theme :star-trail}
-  "root" {:id "root", :name "root", :nickname "root", :password "d41d8cd98f00b204e9800998ecf8427e", :avatar nil, :theme :star-trail}
- }
- :saved-files {}
  :configs {:storage-key "calcit.edn", :extension ".cljs", :output "src", :port 6001}
- :repl {
-  :alive? false
-  :logs {}
- }
 }

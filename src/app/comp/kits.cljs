@@ -46,10 +46,10 @@
     :key :woodenlist,
     :icon "/cdn.tiye.me/logo/woodenlist.png",
     :link "http://wood.topix.im"}
-   {:name "Url Replacer",
-    :key :url-replacer,
-    :icon "/cdn.tiye.me/logo/mvc-works.png",
-    :link "http://repo.tiye.me/chenyong/url-replacer/"}
+   {:name "FE Home",
+    :key :fe-home,
+    :icon "/cdn.tiye.me/logo/jimeng-360x360.png",
+    :link "http://fe.jimu.io"}
    {:name "Daily",
     :key :daily,
     :icon "/cdn.tiye.me/logo/cumulo.png",
