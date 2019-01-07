@@ -38,7 +38,7 @@
     :key :copycat,
     :icon "/cdn.tiye.me/logo/copycat.png",
     :link "http://repo.topix.im/copycat/"}
-   {:name "Timgrass",
+   {:name "Timegrass",
     :key :timegrass,
     :icon "/cdn.tiye.me/logo/timegrass.png",
     :link "http://timegrass.topix.im/"}
