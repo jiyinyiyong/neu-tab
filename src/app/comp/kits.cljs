@@ -50,10 +50,10 @@
     :key :fe-home,
     :icon "/cdn.tiye.me/logo/jimeng-360x360.png",
     :link "http://fe.jimu.io"}
-   {:name "Daily",
-    :key :daily,
-    :icon "/cdn.tiye.me/logo/cumulo.png",
-    :link "http://daily.topix.im/"}
+   {:name "Termina",
+    :key :termina,
+    :icon "/cdn.tiye.me/logo/termina.png",
+    :link "http://termina.mvc-works.org"}
    {:name "EDN Formatter",
     :key :edn-formatter,
     :icon "/cdn.tiye.me/logo/memkits.png",

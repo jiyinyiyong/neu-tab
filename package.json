@@ -26,10 +26,10 @@
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.11.1",
-    "shadow-cljs": "^2.7.13"
+    "shadow-cljs": "^2.8.21"
   },
   "dependencies": {
-    "dayjs": "^1.7.8",
+    "dayjs": "^1.8.11",
     "shortid": "^2.2.14"
   }
 }
