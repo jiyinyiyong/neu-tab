@@ -56,7 +56,7 @@
     :link "http://termina.mvc-works.org"}
    {:name "EDN Formatter",
     :key :edn-formatter,
-    :icon "/cdn.tiye.me/logo/memkits.png",
+    :icon "/cdn.tiye.me/logo/edn-formatter.png",
     :link "http://repo.tiye.me/mvc-works/edn-formatter/"}
    {:name "Diff view",
     :key :diffview,
