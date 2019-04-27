@@ -60,11 +60,11 @@
     :link "http://repo.tiye.me/mvc-works/edn-formatter/"}
    {:name "Diff view",
     :key :diffview,
-    :icon "/cdn.tiye.me/logo/memkits.png",
+    :icon "/cdn.tiye.me/logo/diffview.png",
     :link "http://repo.memkits.org/diffview/"}
    {:name "Manuscript",
     :key :manuscript,
-    :icon "/cdn.tiye.me/logo/memkits.png",
+    :icon "/cdn.tiye.me/logo/manuscript.png",
     :link "http://repo.memkits.org/manuscript/"}])
 
 (defcomp

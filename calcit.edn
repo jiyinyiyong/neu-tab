@@ -1265,7 +1265,7 @@
             :type :expr, :by "rJG4IHzWf", :at 1536071010240, :id "s8iESBvTLj"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1536071012666, :text ":icon", :id "s8iESBvTLjleaf"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1556365334791, :text "\"/cdn.tiye.me/logo/edn-formatter.png", :id "0_2wwzsy-E"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1556386656758, :text "\"/cdn.tiye.me/logo/edn-formatter.png", :id "0_2wwzsy-E"}
             }
            }
            "x" {
@@ -1299,7 +1299,7 @@
             :type :expr, :by "rJG4IHzWf", :at 1536071010240, :id "s8iESBvTLj"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1536071012666, :text ":icon", :id "s8iESBvTLjleaf"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1536257297480, :text "\"/cdn.tiye.me/logo/memkits.png", :id "0_2wwzsy-E"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1556386588397, :text "\"/cdn.tiye.me/logo/diffview.png", :id "0_2wwzsy-E"}
             }
            }
            "x" {
@@ -1333,7 +1333,7 @@
             :type :expr, :by "rJG4IHzWf", :at 1536071010240, :id "s8iESBvTLj"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1536071012666, :text ":icon", :id "s8iESBvTLjleaf"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1536257297480, :text "\"/cdn.tiye.me/logo/memkits.png", :id "0_2wwzsy-E"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1556387245881, :text "\"/cdn.tiye.me/logo/manuscript.png", :id "0_2wwzsy-E"}
             }
            }
            "x" {
