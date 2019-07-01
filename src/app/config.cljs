@@ -19,9 +19,7 @@
    :release-ui "http://cdn.tiye.me/favored-fonts/main.css",
    :local-ui "/cdn.tiye.me/favored-fonts/main.css",
    :cdn-url "http://cdn.tiye.me/neu-page/",
-   :cdn-folder "tiye.me:cdn/neu-page",
    :title "Neu Page",
    :icon "http://cdn.tiye.me/logo/tiye.jpg",
    :local-icon "/neu.png",
-   :storage-key "neu-page",
-   :upload-folder "tiye.me:repo/tiye/neu-page/"})
+   :storage-key "neu-page"})
