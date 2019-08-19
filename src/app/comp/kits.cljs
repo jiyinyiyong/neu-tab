@@ -65,7 +65,11 @@
    {:name "Manuscript",
     :key :manuscript,
     :icon "/cdn.tiye.me/logo/manuscript.png",
-    :link "http://repo.memkits.org/manuscript/"}])
+    :link "http://repo.memkits.org/manuscript/"}
+   {:name "Markdown Editor",
+    :key :markdown-editor,
+    :icon "/cdn.tiye.me/logo/markdown-editor.png",
+    :link "http://repo.memkits.org/markdown-editor/"}])
 
 (defcomp
  comp-kits
