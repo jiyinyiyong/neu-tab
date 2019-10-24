@@ -12,6 +12,8 @@
             [app.comp.kits :refer [comp-kits]]
             ["dayjs" :as dayjs]))
 
+(defn format-week [week] (case week 1 "1st" 2 "2nd"  3 "3rd" (str week "th")))
+
 (defcomp
  comp-time
  (x)
@@ -21,6 +23,8 @@
              ui/row
              {:font-family ui/font-fancy, :color (hsl 0 0 70), :align-items :flex-end})}
     (<> (.format now "dddd") {:font-size 40, :font-weight 300, :margin-bottom 8})
+    (=< 8 nil)
+    (<> (format-week (.week now)) {:margin-bottom 26})
     (=< 24 nil)
     (<> (.format now "HH:mm") {:font-size 100, :font-weight 100, :line-height "120px"}))))
 

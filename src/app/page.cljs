@@ -7,7 +7,9 @@
             [reel.schema :as reel-schema]
             [cljs.reader :refer [read-string]]
             [app.config :as config]
-            [cumulo-util.build :refer [get-ip!]])
+            [cumulo-util.build :refer [get-ip!]]
+            ["dayjs" :as dayjs]
+            ["dayjs/plugin/weekOfYear" :as weekOfYear])
   (:require-macros [clojure.core.strint :refer [<<]]))
 
 (def base-info
@@ -23,6 +25,7 @@
      :inline-styles []})))
 
 (defn prod-page []
+  (.extend dayjs weekOfYear)
   (let [reel (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))
         html-content (make-string (comp-container reel))
         assets (read-string (slurp "dist/assets.edn"))
