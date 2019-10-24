@@ -9,7 +9,9 @@
             [reel.schema :as reel-schema]
             [cljs.reader :refer [read-string]]
             [app.config :as config]
-            [cumulo-util.core :refer [repeat! unix-time!]]))
+            [cumulo-util.core :refer [repeat! unix-time!]]
+            ["dayjs/plugin/weekOfYear" :as weekOfYear]
+            ["dayjs" :as dayjs]))
 
 (defonce *reel
   (atom (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))))
@@ -29,6 +31,7 @@
 (def ssr? (some? (js/document.querySelector "meta.respo-ssr")))
 
 (defn main! []
+  (.extend dayjs weekOfYear)
   (println "Running mode:" (if config/dev? "dev" "release"))
   (if ssr? (render-app! realize-ssr!))
   (render-app! render!)
