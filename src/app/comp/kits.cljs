@@ -26,7 +26,11 @@
   (<> (:name app) {:line-height "48px", :color (hsl 0 0 40)})))
 
 (def quick-apps
-  [{:name "Calcit Editor",
+  [{:name "EDN Formatter",
+    :key :edn-formatter,
+    :icon "/cdn.tiye.me/logo/edn-formatter.png",
+    :link "http://repo.tiye.me/mvc-works/edn-formatter/"}
+   {:name "Calcit Editor",
     :key :calcit,
     :icon "/cdn.tiye.me/logo/cirru.png",
     :link "http://calcit-editor.cirru.org"}
@@ -34,6 +38,10 @@
     :key :copyboard,
     :icon "/cdn.tiye.me/logo/copyboard.png",
     :link "http://cp.topix.im"}
+   {:name "Diff view",
+    :key :diffview,
+    :icon "/cdn.tiye.me/logo/diffview.png",
+    :link "http://repo.memkits.org/diffview/"}
    {:name "Copycat",
     :key :copycat,
     :icon "/cdn.tiye.me/logo/copycat.png",
@@ -54,14 +62,6 @@
     :key :termina,
     :icon "/cdn.tiye.me/logo/termina.png",
     :link "http://termina.mvc-works.org"}
-   {:name "EDN Formatter",
-    :key :edn-formatter,
-    :icon "/cdn.tiye.me/logo/edn-formatter.png",
-    :link "http://repo.tiye.me/mvc-works/edn-formatter/"}
-   {:name "Diff view",
-    :key :diffview,
-    :icon "/cdn.tiye.me/logo/diffview.png",
-    :link "http://repo.memkits.org/diffview/"}
    {:name "Manuscript",
     :key :manuscript,
     :icon "/cdn.tiye.me/logo/manuscript.png",
