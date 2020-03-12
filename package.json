@@ -25,11 +25,11 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "http-server": "^0.11.1",
-    "shadow-cljs": "^2.8.67"
+    "http-server": "^0.12.1",
+    "shadow-cljs": "^2.8.92"
   },
   "dependencies": {
-    "dayjs": "^1.8.16",
+    "dayjs": "^1.8.22",
     "shortid": "^2.2.15"
   }
 }
