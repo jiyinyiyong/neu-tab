@@ -7,11 +7,9 @@
     "watch-ssr": "cr --init-fn=app.ssr/main! --reload-fn=app.ssr/reload! --emit-path ssr-out/ --emit-js",
     "compile-ssr": "cr --init-fn=app.ssr/main! --reload-fn=app.ssr/reload! --emit-path ssr-out/ --emit-js -1",
     "ssr": "yarn compile-ssr && yarn webpack && node ssr-out/bundle.js",
-    "ln": "cd target && rm -f entry && ln -s ../entry && cp ../entry/neu.png .",
-    "get-fonts": "cd target && wget --recursive http://cdn.tiye.me/favored-fonts/main.css -q --show-progress",
-    "get-logos": "cd target && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
+    "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main.css -q --show-progress",
+    "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
-    "cp-resources": "cp -r entry/manifest.json entry/neu.png target/cdn.tiye.me dist/",
     "crx": "yarn build && yarn cp-resources && zip -r neu-tab.zip dist/"
   },
   "repository": {
