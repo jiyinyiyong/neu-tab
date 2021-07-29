@@ -49,7 +49,7 @@ jobs:
       - name: "compiles to js"
         run: >
           cr --emit-js --once
-          && yarn && yarn vite build --base=./
+          && yarn && yarn vite build --base=./ && yarn ssr
 
       - name: Deploy to server
         id: deploy

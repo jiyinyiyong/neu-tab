@@ -3,6 +3,7 @@
 .calcit-error.cirru
 
 js-out/
+ssr-out/
 node_modules/
 dist/
 *.zip

@@ -55,15 +55,15 @@
     |app.comp.container $ {}
       :ns $ quote
         ns app.comp.container $ :require
-          [] respo-ui.core :refer $ [] hsl
-          [] respo-ui.core :as ui
-          [] respo.core :refer $ [] defcomp >> <> div button textarea span
-          [] respo.comp.space :refer $ [] =<
-          [] reel.comp.reel :refer $ [] comp-reel
-          [] respo-md.comp.md :refer $ [] comp-md
-          [] app.config :refer $ [] dev?
-          [] app.comp.kits :refer $ [] comp-kits
-          [] "\"dayjs" :default dayjs
+          respo-ui.core :refer $ hsl
+          respo-ui.core :as ui
+          respo.core :refer $ defcomp >> <> div button textarea span
+          respo.comp.space :refer $ =<
+          reel.comp.reel :refer $ comp-reel
+          respo-md.comp.md :refer $ comp-md
+          app.config :refer $ dev?
+          app.comp.kits :refer $ comp-kits
+          "\"dayjs" :default dayjs
       :defs $ {}
         |comp-container $ quote
           defcomp comp-container (reel)
@@ -89,7 +89,7 @@
                   {} (:font-size 40) (:font-weight 300) (:margin-bottom 8)
                 =< 8 nil
                 <>
-                  format-week $ .week now
+                  format-week $ .!week now
                   {} $ :margin-bottom 26
                 =< 24 nil
                 <> (.format now "\"HH:mm")
@@ -120,10 +120,36 @@
               :content $ assoc store :content op-data
               :hydrate-storage op-data
               :tick $ assoc store :time op-data
+    |app.ssr $ {}
+      :ns $ quote
+        ns app.ssr $ :require
+          app.comp.container :refer $ comp-container
+          "\"fs" :as fs
+          respo.render.html :refer $ make-string
+          reel.schema :as reel-schema
+          app.schema :as schema
+          "\"dayjs" :default dayjs
+          "\"dayjs/plugin/weekOfYear" :default weekOfYear
+      :defs $ {}
+        |main! $ quote
+          defn main! () (.!extend dayjs weekOfYear) (render-page!)
+        |reload! $ quote
+          defn reload! () $ render-page!
+        |render-page! $ quote
+          defn render-page! () $ let
+              p "\"dist/index.html"
+              app-html $ make-string
+                comp-container $ let
+                    s schema/store
+                  assoc reel-schema/reel :base s :store s
+              html $ fs/readFileSync p "\"utf8"
+              new-html $ .!replace html "\"<div class=\"app\" ></div>" (str "\"<div class=\"app\" data-ssr=\"true\" >" app-html "\"</div>")
+            fs/writeFileSync p new-html
+            println "\"Wrote to" p
     |app.main $ {}
       :ns $ quote
         ns app.main $ :require
-          [] respo.core :refer $ [] render! clear-cache!
+          [] respo.core :refer $ [] render! clear-cache! realize-ssr!
           [] app.comp.container :refer $ [] comp-container
           [] app.updater :refer $ [] updater
           [] app.schema :as schema
@@ -135,9 +161,10 @@
           [] "\"dayjs" :default dayjs
       :defs $ {}
         |render-app! $ quote
-          defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
+          defn render-app! (renderer)
+            renderer mount-target (comp-container @*reel) dispatch!
         |ssr? $ quote
-          def ssr? $ some? (js/document.querySelector |meta.respo-ssr)
+          def ssr? $ some? (js/document.querySelector "\"div[data-ssr]")
         |persist-storage! $ quote
           defn persist-storage! (? e)
             .setItem js/localStorage (:storage-key config/site)
@@ -147,10 +174,10 @@
         |*reel $ quote
           defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
         |main! $ quote
-          defn main! () (.extend dayjs weekOfYear)
+          defn main! () (.!extend dayjs weekOfYear)
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
-            render-app!
-            add-watch *reel :changes $ fn (r p) (render-app!)
+            if ssr? (render-app! realize-ssr!) (render-app! render!)
+            add-watch *reel :changes $ fn (r p) (render-app! render!)
             listen-devtools! |a dispatch!
             .addEventListener js/window |beforeunload persist-storage!
             timeout-call 60 persist-storage!
@@ -167,7 +194,7 @@
             reset! *reel $ reel-updater updater @*reel op op-data
         |reload! $ quote
           defn reload! () (clear-cache!) (remove-watch *reel :changes)
-            add-watch *reel :changes $ fn (r p) (render-app!)
+            add-watch *reel :changes $ fn (r p) (render-app! render!)
             reset! *reel $ refresh-reel @*reel schema/store updater
             println "|Code updated."
     |app.config $ {}
