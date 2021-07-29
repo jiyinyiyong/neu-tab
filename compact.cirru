@@ -52,6 +52,7 @@
             {} (:name "\"Woodenlist") (:key :woodenlist) (:icon "\"woodenlist.png") (:link "\"http://wood.topix.im")
             {} (:name "\"Manuscript") (:key :manuscript) (:icon "\"manuscript.png") (:link "\"http://r.tiye.me/Memkits/manuscript/")
             {} (:name "\"Markdown Editor") (:key :markdown-editor) (:icon "\"markdown-editor.png") (:link "\"http://r.tiye.me/Memkits/markdown-editor/")
+            {} (:name "\"Sedum Slide") (:key :sedum-slide) (:icon "\"sedum-icon.png") (:link "\"http://r.tiye.me/Memkits/sedum-slide/")
     |app.comp.container $ {}
       :ns $ quote
         ns app.comp.container $ :require
@@ -133,8 +134,6 @@
       :defs $ {}
         |main! $ quote
           defn main! () (.!extend dayjs weekOfYear) (render-page!)
-        |reload! $ quote
-          defn reload! () $ render-page!
         |render-page! $ quote
           defn render-page! () $ let
               p "\"dist/index.html"
@@ -146,6 +145,8 @@
               new-html $ .!replace html "\"<div class=\"app\" ></div>" (str "\"<div class=\"app\" data-ssr=\"true\" >" app-html "\"</div>")
             fs/writeFileSync p new-html
             println "\"Wrote to" p
+        |reload! $ quote
+          defn reload! () $ render-page!
     |app.main $ {}
       :ns $ quote
         ns app.main $ :require
