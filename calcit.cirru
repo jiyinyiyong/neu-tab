@@ -673,7 +673,7 @@
                       |x $ {}
                         :data $ {}
                           |T $ {} (:text |:link) (:type :leaf) (:at 1583948960708) (:by |rJG4IHzWf) (:id |v5mI8sGxg)
-                          |j $ {} (:text "|\"http://repo.tiye.me/mvc-works/edn-formatter/") (:type :leaf) (:at 1583948960708) (:by |rJG4IHzWf) (:id |8nab1Y68l)
+                          |j $ {} (:text "|\"https://repo.tiye.me/mvc-works/edn-formatter/") (:type :leaf) (:at 1583948960708) (:by |rJG4IHzWf) (:id |8nab1Y68l)
                         :type :expr
                         :at 1583948960708
                         :by |rJG4IHzWf

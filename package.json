@@ -10,6 +10,7 @@
     "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main.css -q --show-progress",
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
+    "cp": "cp entry/manifest.json dist && cp entry/neu.png dist",
     "crx": "yarn build && yarn cp-resources && zip -r neu-tab.zip dist/"
   },
   "repository": {
@@ -20,12 +21,12 @@
   "license": "MIT",
   "devDependencies": {
     "vite": "^2.4.4",
-    "webpack": "^5.47.0",
+    "webpack": "^5.47.1",
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "@calcit/procs": "^0.4.11",
-    "dayjs": "^1.8.22",
-    "shortid": "^2.2.15"
+    "@calcit/procs": "^0.4.13",
+    "dayjs": "^1.10.6",
+    "shortid": "^2.2.16"
   }
 }
