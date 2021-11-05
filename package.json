@@ -7,7 +7,7 @@
     "watch-ssr": "cr --init-fn=app.ssr/main! --reload-fn=app.ssr/reload! --emit-path ssr-out/ --emit-js",
     "compile-ssr": "cr --init-fn=app.ssr/main! --reload-fn=app.ssr/reload! --emit-path ssr-out/ --emit-js -1",
     "ssr": "yarn compile-ssr && yarn webpack && node ssr-out/bundle.js",
-    "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main.css -q --show-progress",
+    "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main-fonts.css -q --show-progress",
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
     "cp": "cp entry/manifest.json dist && cp entry/neu.png dist",
@@ -20,13 +20,13 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "vite": "^2.4.4",
-    "webpack": "^5.47.1",
-    "webpack-cli": "^4.7.2"
+    "vite": "^2.6.13",
+    "webpack": "^5.61.0",
+    "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@calcit/procs": "^0.4.13",
-    "dayjs": "^1.10.6",
+    "@calcit/procs": "^0.5.0-a23",
+    "dayjs": "^1.10.7",
     "shortid": "^2.2.16"
   }
 }
