@@ -6,7 +6,8 @@
   "scripts": {
     "watch-ssr": "cr --init-fn=app.ssr/main! --reload-fn=app.ssr/reload! --emit-path ssr-out/ --emit-js",
     "compile-ssr": "cr --init-fn=app.ssr/main! --reload-fn=app.ssr/reload! --emit-path ssr-out/ --emit-js -1",
-    "ssr": "yarn compile-ssr && yarn webpack && node ssr-out/bundle.js",
+    "ssr": "yarn compile-ssr && yarn bundle-ssr && node ssr-out/bundle.js",
+    "bundle-ssr": "esbuild ssr.js --bundle --outfile=ssr-out/bundle.js --platform=node",
     "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main-fonts.css -q --show-progress",
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
@@ -21,8 +22,7 @@
   "license": "MIT",
   "devDependencies": {
     "vite": "^2.6.14",
-    "webpack": "^5.64.4",
-    "webpack-cli": "^4.9.1"
+    "esbuild": "^0.14.1"
   },
   "dependencies": {
     "@calcit/procs": "^0.5.10",
