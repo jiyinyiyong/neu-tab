@@ -21,11 +21,11 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "vite": "^2.6.14",
-    "esbuild": "^0.14.1"
+    "esbuild": "^0.14.21",
+    "vite": "^2.8.3"
   },
   "dependencies": {
-    "@calcit/procs": "^0.5.10",
+    "@calcit/procs": "^0.5.17",
     "dayjs": "^1.10.7",
     "shortid": "^2.2.16"
   }
