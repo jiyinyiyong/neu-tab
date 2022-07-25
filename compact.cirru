@@ -1,70 +1,12 @@
 
 {} (:package |app)
-  :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
+  :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!) (:version |0.0.1)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
-    :version nil
+  :entries $ {}
+    :ssr $ {} (:init-fn |app.ssr/main!) (:reload-fn |app.ssr/reload!)
+      :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
   :files $ {}
-    |app.comp.kits $ {}
-      :ns $ quote
-        ns app.comp.kits $ :require
-          [] respo-ui.core :refer $ [] hsl
-          [] respo-ui.core :as ui
-          [] respo.core :refer $ [] defcomp list-> <> div button textarea span img a
-          [] respo.comp.space :refer $ [] =<
-          [] respo-md.comp.md :refer $ [] comp-md
-          [] app.config :refer $ [] dev?
-      :defs $ {}
-        |comp-kits $ quote
-          defcomp comp-kits () $ div
-            {} $ :style
-              merge ui/column $ {} (:padding 16) (:max-width 800)
-            div $ {}
-              :style $ {} (:font-family ui/font-fancy) (:font-size 24) (:font-weight 300) (:margin-bottom 16)
-            list->
-              {} $ :style
-                merge ui/row $ {} (:flex-wrap :wrap)
-              -> quick-apps $ map
-                fn (app)
-                  [] (:key app) (comp-app app)
-        |comp-app $ quote
-          defcomp comp-app (app)
-            a
-              {}
-                :style $ merge ui/center
-                  {} (:width 120) (:margin "\"0 8px 8px 0") (:border-radius "\"32px") (:text-decoration :none) (:padding "\"8px 0 0 0")
-                :on-click $ fn (e d!)
-                  .replace js/location $ :link app
-                :href $ :link app
-              img $ {}
-                :src $ str "\"http://cdn.tiye.me/logo/" (:icon app)
-                :style $ {} (:width 80) (:height 80)
-              <> (:name app)
-                {} (:line-height "\"48px")
-                  :color $ hsl 0 0 40
-        |quick-apps $ quote
-          def quick-apps $ []
-            {} (:name "\"EDN Formatter") (:key :edn-formatter) (:icon "\"edn-formatter.png") (:link "\"https://repo.tiye.me/mvc-works/edn-formatter/")
-            {} (:name "\"Calcit Editor") (:key :calcit) (:icon "\"cirru.png") (:link "\"http://calcit-editor.cirru.org")
-            {} (:name "\"Copyboard") (:key :copyboard) (:icon "\"copyboard.png") (:link "\"http://cp.topix.im")
-            {} (:name "\"Diff view") (:key :diffview) (:icon "\"diffview.png") (:link "\"http://r.tiye.me/Memkits/diffview/")
-            {} (:name "\"Copycat") (:key :copycat) (:icon "\"copycat.png") (:link "\"http://repo.topix.im/copycat/")
-            {} (:name "\"Timegrass") (:key :timegrass) (:icon "\"timegrass.png") (:link "\"http://timegrass.topix.im/")
-            {} (:name "\"Woodenlist") (:key :woodenlist) (:icon "\"woodenlist.png") (:link "\"http://wood.topix.im")
-            {} (:name "\"Manuscript") (:key :manuscript) (:icon "\"manuscript.png") (:link "\"http://r.tiye.me/Memkits/manuscript/")
-            {} (:name "\"Markdown Editor") (:key :markdown-editor) (:icon "\"markdown-editor.png") (:link "\"http://r.tiye.me/Memkits/markdown-editor/")
-            {} (:name "\"Sedum Slide") (:key :sedum-slide) (:icon "\"sedum-icon.png") (:link "\"http://r.tiye.me/Memkits/sedum-slide/")
     |app.comp.container $ {}
-      :ns $ quote
-        ns app.comp.container $ :require
-          respo-ui.core :refer $ hsl
-          respo-ui.core :as ui
-          respo.core :refer $ defcomp >> <> div button textarea span
-          respo.comp.space :refer $ =<
-          reel.comp.reel :refer $ comp-reel
-          respo-md.comp.md :refer $ comp-md
-          app.config :refer $ dev?
-          app.comp.kits :refer $ comp-kits
-          "\"dayjs" :default dayjs
       :defs $ {}
         |comp-container $ quote
           defcomp comp-container (reel)
@@ -98,82 +40,88 @@
         |format-week $ quote
           defn format-week (week)
             case-default week (str week "\"th") (1 "\"1st") (2 "\"2nd") (3 "\"3rd")
-    |app.schema $ {}
-      :ns $ quote (ns app.schema)
-      :defs $ {}
-        |app $ quote
-          def app $ {} (:key nil) (:name nil) (:icon nil) (:link nil) (:description nil)
-        |store $ quote
-          def store $ {}
-            :states $ {}
-            :content |
-            :time 0
-    |app.updater $ {}
       :ns $ quote
-        ns app.updater $ :require
-          [] respo.cursor :refer $ [] update-states
-      :defs $ {}
-        |updater $ quote
-          defn updater (store op op-data op-id op-time)
-            case-default op
-              do (println "\"unknown op:" op) store
-              :states $ update-states store op-data
-              :content $ assoc store :content op-data
-              :hydrate-storage op-data
-              :tick $ assoc store :time op-data
-    |app.ssr $ {}
-      :ns $ quote
-        ns app.ssr $ :require
-          app.comp.container :refer $ comp-container
-          "\"fs" :as fs
-          respo.render.html :refer $ make-string
-          reel.schema :as reel-schema
-          app.schema :as schema
+        ns app.comp.container $ :require
+          respo-ui.core :refer $ hsl
+          respo-ui.core :as ui
+          respo.core :refer $ defcomp >> <> div button textarea span
+          respo.comp.space :refer $ =<
+          reel.comp.reel :refer $ comp-reel
+          respo-md.comp.md :refer $ comp-md
+          app.config :refer $ dev?
+          app.comp.kits :refer $ comp-kits
           "\"dayjs" :default dayjs
-          "\"dayjs/plugin/weekOfYear" :default weekOfYear
+    |app.comp.kits $ {}
       :defs $ {}
-        |main! $ quote
-          defn main! () (.!extend dayjs weekOfYear) (render-page!)
-        |render-page! $ quote
-          defn render-page! () $ let
-              p "\"dist/index.html"
-              app-html $ make-string
-                comp-container $ let
-                    s schema/store
-                  assoc reel-schema/reel :base s :store s
-              html $ fs/readFileSync p "\"utf8"
-              new-html $ .!replace html "\"<div class=\"app\" ></div>" (str "\"<div class=\"app\" data-ssr=\"true\" >" app-html "\"</div>")
-            fs/writeFileSync p new-html
-            println "\"Wrote to" p
-        |reload! $ quote
-          defn reload! () $ render-page!
-    |app.main $ {}
+        |comp-app $ quote
+          defcomp comp-app (app)
+            a
+              {}
+                :style $ merge ui/center
+                  {} (:width 120) (:margin "\"0 8px 8px 0") (:border-radius "\"32px") (:text-decoration :none) (:padding "\"8px 0 0 0")
+                :on-click $ fn (e d!)
+                  .replace js/location $ :link app
+                :href $ :link app
+              img $ {}
+                :src $ str "\"http://cdn.tiye.me/logo/" (:icon app)
+                :style $ {} (:width 80) (:height 80)
+              <> (:name app)
+                {} (:line-height "\"48px")
+                  :color $ hsl 0 0 40
+        |comp-kits $ quote
+          defcomp comp-kits () $ div
+            {} $ :style
+              merge ui/column $ {} (:padding 16) (:max-width 800)
+            div $ {}
+              :style $ {} (:font-family ui/font-fancy) (:font-size 24) (:font-weight 300) (:margin-bottom 16)
+            list->
+              {} $ :style
+                merge ui/row $ {} (:flex-wrap :wrap)
+              -> quick-apps $ map
+                fn (app)
+                  [] (:key app) (comp-app app)
+        |quick-apps $ quote
+          def quick-apps $ []
+            {} (:name "\"EDN Formatter") (:key :edn-formatter) (:icon "\"edn-formatter.png") (:link "\"https://repo.tiye.me/mvc-works/edn-formatter/")
+            {} (:name "\"Calcit Editor") (:key :calcit) (:icon "\"cirru.png") (:link "\"http://calcit-editor.cirru.org")
+            {} (:name "\"Copyboard") (:key :copyboard) (:icon "\"copyboard.png") (:link "\"http://cp.topix.im")
+            {} (:name "\"Diff view") (:key :diffview) (:icon "\"diffview.png") (:link "\"http://r.tiye.me/Memkits/diffview/")
+            {} (:name "\"Copycat") (:key :copycat) (:icon "\"copycat.png") (:link "\"http://repo.topix.im/copycat/")
+            {} (:name "\"Timegrass") (:key :timegrass) (:icon "\"timegrass.png") (:link "\"http://timegrass.topix.im/")
+            {} (:name "\"Woodenlist") (:key :woodenlist) (:icon "\"woodenlist.png") (:link "\"http://wood.topix.im")
+            {} (:name "\"Manuscript") (:key :manuscript) (:icon "\"manuscript.png") (:link "\"http://r.tiye.me/Memkits/manuscript/")
+            {} (:name "\"Markdown Editor") (:key :markdown-editor) (:icon "\"markdown-editor.png") (:link "\"http://r.tiye.me/Memkits/markdown-editor/")
+            {} (:name "\"Sedum Slide") (:key :sedum-slide) (:icon "\"sedum-icon.png") (:link "\"http://r.tiye.me/Memkits/sedum-slide/")
       :ns $ quote
-        ns app.main $ :require
-          [] respo.core :refer $ [] render! clear-cache! realize-ssr!
-          [] app.comp.container :refer $ [] comp-container
-          [] app.updater :refer $ [] updater
-          [] app.schema :as schema
-          [] reel.util :refer $ [] listen-devtools!
-          [] reel.core :refer $ [] reel-updater refresh-reel
-          [] reel.schema :as reel-schema
-          [] app.config :as config
-          [] "\"dayjs/plugin/weekOfYear" :default weekOfYear
-          [] "\"dayjs" :default dayjs
+        ns app.comp.kits $ :require
+          [] respo-ui.core :refer $ [] hsl
+          [] respo-ui.core :as ui
+          [] respo.core :refer $ [] defcomp list-> <> div button textarea span img a
+          [] respo.comp.space :refer $ [] =<
+          [] respo-md.comp.md :refer $ [] comp-md
+          [] app.config :refer $ [] dev?
+    |app.config $ {}
       :defs $ {}
-        |render-app! $ quote
-          defn render-app! (renderer)
-            renderer mount-target (comp-container @*reel) dispatch!
-        |ssr? $ quote
-          def ssr? $ some? (js/document.querySelector "\"div[data-ssr]")
-        |persist-storage! $ quote
-          defn persist-storage! (? e)
-            .setItem js/localStorage (:storage-key config/site)
-              format-cirru-edn $ :store @*reel
-        |mount-target $ quote
-          def mount-target $ .querySelector js/document |.app
+        |cdn? $ quote
+          def cdn? $ cond
+              exists? js/window
+              , false
+            (exists? js/process) (= "\"true" js/process.env.cdn)
+            :else false
+        |dev? $ quote
+          def dev? $ = "\"dev" (get-env "\"mode")
+        |site $ quote
+          def site $ {} (:dev-ui "\"http://localhost:8100/main.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main.css") (:local-ui "\"/cdn.tiye.me/favored-fonts/main.css") (:cdn-url "\"http://cdn.tiye.me/neu-page/") (:title "\"Neu Page") (:icon "\"http://cdn.tiye.me/logo/tiye.jpg") (:local-icon "\"/neu.png") (:storage-key "\"neu-page")
+      :ns $ quote
+        ns app.config $ :require
+          [] cumulo-util.core :refer $ [] get-env!
+    |app.main $ {}
+      :defs $ {}
         |*reel $ quote
           defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
+        |dispatch! $ quote
+          defn dispatch! (op op-data) (; println |Dispatch: op)
+            reset! *reel $ reel-updater updater @*reel op op-data
         |main! $ quote
           defn main! () (.!extend dayjs weekOfYear)
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
@@ -190,26 +138,80 @@
                 dispatch! :hydrate-storage $ parse-cirru-edn raw
                 dispatch! :tick $ js/Date.now
             println "|App started."
-        |dispatch! $ quote
-          defn dispatch! (op op-data) (; println |Dispatch: op)
-            reset! *reel $ reel-updater updater @*reel op op-data
+        |mount-target $ quote
+          def mount-target $ .querySelector js/document |.app
+        |persist-storage! $ quote
+          defn persist-storage! (? e)
+            .setItem js/localStorage (:storage-key config/site)
+              format-cirru-edn $ :store @*reel
         |reload! $ quote
           defn reload! () (clear-cache!) (remove-watch *reel :changes)
             add-watch *reel :changes $ fn (r p) (render-app! render!)
             reset! *reel $ refresh-reel @*reel schema/store updater
             println "|Code updated."
-    |app.config $ {}
+        |render-app! $ quote
+          defn render-app! (renderer)
+            renderer mount-target (comp-container @*reel) dispatch!
+        |ssr? $ quote
+          def ssr? $ some? (js/document.querySelector "\"div[data-ssr]")
       :ns $ quote
-        ns app.config $ :require
-          [] cumulo-util.core :refer $ [] get-env!
+        ns app.main $ :require
+          [] respo.core :refer $ [] render! clear-cache! realize-ssr!
+          [] app.comp.container :refer $ [] comp-container
+          [] app.updater :refer $ [] updater
+          [] app.schema :as schema
+          [] reel.util :refer $ [] listen-devtools!
+          [] reel.core :refer $ [] reel-updater refresh-reel
+          [] reel.schema :as reel-schema
+          [] app.config :as config
+          [] "\"dayjs/plugin/weekOfYear" :default weekOfYear
+          [] "\"dayjs" :default dayjs
+    |app.schema $ {}
       :defs $ {}
-        |cdn? $ quote
-          def cdn? $ cond
-              exists? js/window
-              , false
-            (exists? js/process) (= "\"true" js/process.env.cdn)
-            :else false
-        |dev? $ quote
-          def dev? $ = "\"dev" (get-env "\"mode")
-        |site $ quote
-          def site $ {} (:dev-ui "\"http://localhost:8100/main.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main.css") (:local-ui "\"/cdn.tiye.me/favored-fonts/main.css") (:cdn-url "\"http://cdn.tiye.me/neu-page/") (:title "\"Neu Page") (:icon "\"http://cdn.tiye.me/logo/tiye.jpg") (:local-icon "\"/neu.png") (:storage-key "\"neu-page")
+        |app $ quote
+          def app $ {} (:key nil) (:name nil) (:icon nil) (:link nil) (:description nil)
+        |store $ quote
+          def store $ {}
+            :states $ {}
+            :content |
+            :time 0
+      :ns $ quote (ns app.schema)
+    |app.ssr $ {}
+      :defs $ {}
+        |main! $ quote
+          defn main! () (.!extend dayjs weekOfYear) (render-page!)
+        |reload! $ quote
+          defn reload! () $ render-page!
+        |render-page! $ quote
+          defn render-page! () $ let
+              p "\"dist/index.html"
+              app-html $ make-string
+                comp-container $ let
+                    s schema/store
+                  assoc reel-schema/reel :base s :store s
+              html $ fs/readFileSync p "\"utf8"
+              new-html $ .!replace html "\"<div class=\"app\" ></div>" (str "\"<div class=\"app\" data-ssr=\"true\" >" app-html "\"</div>")
+            fs/writeFileSync p new-html
+            println "\"Wrote to" p
+      :ns $ quote
+        ns app.ssr $ :require
+          app.comp.container :refer $ comp-container
+          "\"fs" :as fs
+          respo.render.html :refer $ make-string
+          reel.schema :as reel-schema
+          app.schema :as schema
+          "\"dayjs" :default dayjs
+          "\"dayjs/plugin/weekOfYear.js" :default weekOfYear
+    |app.updater $ {}
+      :defs $ {}
+        |updater $ quote
+          defn updater (store op op-data op-id op-time)
+            case-default op
+              do (println "\"unknown op:" op) store
+              :states $ update-states store op-data
+              :content $ assoc store :content op-data
+              :hydrate-storage op-data
+              :tick $ assoc store :time op-data
+      :ns $ quote
+        ns app.updater $ :require
+          [] respo.cursor :refer $ [] update-states

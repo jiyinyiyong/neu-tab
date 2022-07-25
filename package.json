@@ -4,10 +4,9 @@
   "description": "ClojureScript workflow using Calcit Editor",
   "main": "index.js",
   "scripts": {
-    "watch-ssr": "cr --init-fn=app.ssr/main! --reload-fn=app.ssr/reload! --emit-path ssr-out/ --emit-js",
-    "compile-ssr": "cr --init-fn=app.ssr/main! --reload-fn=app.ssr/reload! --emit-path ssr-out/ --emit-js -1",
-    "ssr": "yarn compile-ssr && yarn bundle-ssr && node ssr-out/bundle.js",
-    "bundle-ssr": "esbuild ssr.js --bundle --outfile=ssr-out/bundle.js --platform=node",
+    "watch-ssr": "cr --entry ssr --emit-path ssr-out/ --emit-js",
+    "compile-ssr": "cr --entry ssr --emit-path ssr-out/ --emit-js -1",
+    "ssr": "yarn compile-ssr && node ssr.mjs",
     "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main-fonts.css -q --show-progress",
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
@@ -21,12 +20,11 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "esbuild": "^0.14.21",
-    "vite": "^2.8.3"
+    "vite": "^3.0.3"
   },
   "dependencies": {
-    "@calcit/procs": "^0.5.17",
-    "dayjs": "^1.10.7",
+    "@calcit/procs": "^0.6.1",
+    "dayjs": "^1.11.4",
     "shortid": "^2.2.16"
   }
 }
