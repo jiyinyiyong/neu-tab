@@ -14,8 +14,9 @@
                 store $ :store reel
                 states $ :states store
               div
-                {} $ :style
-                  merge ui/global ui/fullscreen ui/center $ {} (:background-color "\"rgb(231,234,237)")
+                {}
+                  :class-name $ str-spaced css/global css/fullscreen css/center
+                  :style $ {} (:background-color "\"rgb(231,234,237)")
                 comp-time $ :time store
                 comp-kits
                 when dev? $ comp-reel (>> states :reel) reel ({})
@@ -44,6 +45,7 @@
         ns app.comp.container $ :require
           respo-ui.core :refer $ hsl
           respo-ui.core :as ui
+          respo-ui.css :as css
           respo.core :refer $ defcomp >> <> div button textarea span
           respo.comp.space :refer $ =<
           reel.comp.reel :refer $ comp-reel
@@ -57,8 +59,7 @@
           defcomp comp-app (app)
             a
               {}
-                :style $ merge ui/center
-                  {} (:width 120) (:margin "\"0 8px 8px 0") (:border-radius "\"32px") (:text-decoration :none) (:padding "\"8px 0 0 0")
+                :class-name $ str-spaced css/center css-app
                 :on-click $ fn (e d!)
                   .replace js/location $ :link app
                 :href $ :link app
@@ -66,20 +67,25 @@
                 :src $ str "\"http://cdn.tiye.me/logo/" (:icon app)
                 :style $ {} (:width 80) (:height 80)
               <> (:name app)
-                {} (:line-height "\"48px")
+                {} (:line-height "\"40px")
                   :color $ hsl 0 0 40
         |comp-kits $ quote
           defcomp comp-kits () $ div
-            {} $ :style
-              merge ui/column $ {} (:padding 16) (:max-width 800)
-            div $ {}
-              :style $ {} (:font-family ui/font-fancy) (:font-size 24) (:font-weight 300) (:margin-bottom 16)
+            {} (:class-name css/column)
+              :style $ {} (:padding 16) (:max-width 800)
+            div $ {} (:class-name css/font-fancy)
+              :style $ {} (:font-size 24) (:font-weight 300) (:margin-bottom 16)
             list->
-              {} $ :style
-                merge ui/row $ {} (:flex-wrap :wrap)
+              {} (:class-name css/row)
+                :style $ {} (:flex-wrap :wrap)
               -> quick-apps $ map
                 fn (app)
                   [] (:key app) (comp-app app)
+        |css-app $ quote
+          defstyle css-app $ {}
+            "\"$0" $ {} (:transition-duration "\"240ms") (:width 120) (:margin "\"0 8px 8px 0") (:border-radius "\"32px") (:text-decoration :none) (:padding "\"18px 0 0 0")
+            "\"$0:hover" $ {}
+              :background-color $ hsl 0 0 95
         |quick-apps $ quote
           def quick-apps $ []
             {} (:name "\"EDN Formatter") (:key :edn-formatter) (:icon "\"edn-formatter.png") (:link "\"https://repo.tiye.me/mvc-works/edn-formatter/")
@@ -94,12 +100,14 @@
             {} (:name "\"Sedum Slide") (:key :sedum-slide) (:icon "\"sedum-icon.png") (:link "\"http://r.tiye.me/Memkits/sedum-slide/")
       :ns $ quote
         ns app.comp.kits $ :require
-          [] respo-ui.core :refer $ [] hsl
-          [] respo-ui.core :as ui
-          [] respo.core :refer $ [] defcomp list-> <> div button textarea span img a
-          [] respo.comp.space :refer $ [] =<
-          [] respo-md.comp.md :refer $ [] comp-md
-          [] app.config :refer $ [] dev?
+          respo-ui.core :refer $ hsl
+          respo-ui.core :as ui
+          respo-ui.css :as css
+          respo.css :refer $ defstyle
+          respo.core :refer $ defcomp list-> <> div button textarea span img a
+          respo.comp.space :refer $ =<
+          respo-md.comp.md :refer $ comp-md
+          app.config :refer $ dev?
     |app.config $ {}
       :defs $ {}
         |cdn? $ quote
@@ -109,7 +117,7 @@
             (exists? js/process) (= "\"true" js/process.env.cdn)
             :else false
         |dev? $ quote
-          def dev? $ = "\"dev" (get-env "\"mode")
+          def dev? $ = "\"dev" (get-env "\"mode" "\"release")
         |site $ quote
           def site $ {} (:dev-ui "\"http://localhost:8100/main.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main.css") (:local-ui "\"/cdn.tiye.me/favored-fonts/main.css") (:cdn-url "\"http://cdn.tiye.me/neu-page/") (:title "\"Neu Page") (:icon "\"http://cdn.tiye.me/logo/tiye.jpg") (:local-icon "\"/neu.png") (:storage-key "\"neu-page")
       :ns $ quote
@@ -189,8 +197,9 @@
                 comp-container $ let
                     s schema/store
                   assoc reel-schema/reel :base s :store s
+              styles $ .join-str @*style-list-in-nodejs (str &newline &newline)
               html $ fs/readFileSync p "\"utf8"
-              new-html $ .!replace html "\"<div class=\"app\" ></div>" (str "\"<div class=\"app\" data-ssr=\"true\" >" app-html "\"</div>")
+              new-html $ .!replace html "\"<div class=\"app\" ></div>" (str "\"<style>" styles "\"</style>" "\"<div class=\"app\" data-ssr=\"true\" >" app-html "\"</div>")
             fs/writeFileSync p new-html
             println "\"Wrote to" p
       :ns $ quote
@@ -200,6 +209,7 @@
           respo.render.html :refer $ make-string
           reel.schema :as reel-schema
           app.schema :as schema
+          respo.css :refer $ *style-list-in-nodejs
           "\"dayjs" :default dayjs
           "\"dayjs/plugin/weekOfYear.js" :default weekOfYear
     |app.updater $ {}
