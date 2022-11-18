@@ -134,7 +134,7 @@
           def site $ {} (:dev-ui "\"http://localhost:8100/main.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main.css") (:local-ui "\"/cdn.tiye.me/favored-fonts/main.css") (:cdn-url "\"http://cdn.tiye.me/neu-page/") (:title "\"Neu Page") (:icon "\"http://cdn.tiye.me/logo/tiye.jpg") (:local-icon "\"/neu.png") (:storage-key "\"neu-page")
       :ns $ quote
         ns app.config $ :require
-          [] cumulo-util.core :refer $ [] get-env!
+          cumulo-util.core :refer $ get-env!
     |app.main $ {}
       :defs $ {}
         |*reel $ quote
@@ -176,16 +176,16 @@
           def ssr? $ some? (js/document.querySelector "\"div[data-ssr]")
       :ns $ quote
         ns app.main $ :require
-          [] respo.core :refer $ [] render! clear-cache! realize-ssr!
-          [] app.comp.container :refer $ [] comp-container
-          [] app.updater :refer $ [] updater
-          [] app.schema :as schema
-          [] reel.util :refer $ [] listen-devtools!
-          [] reel.core :refer $ [] reel-updater refresh-reel
-          [] reel.schema :as reel-schema
-          [] app.config :as config
-          [] "\"dayjs/plugin/weekOfYear" :default weekOfYear
-          [] "\"dayjs" :default dayjs
+          respo.core :refer $ render! clear-cache! realize-ssr!
+          app.comp.container :refer $ comp-container
+          app.updater :refer $ updater
+          app.schema :as schema
+          reel.util :refer $ listen-devtools!
+          reel.core :refer $ reel-updater refresh-reel
+          reel.schema :as reel-schema
+          app.config :as config
+          "\"dayjs/plugin/weekOfYear" :default weekOfYear
+          "\"dayjs" :default dayjs
     |app.schema $ {}
       :defs $ {}
         |app $ quote
@@ -236,4 +236,4 @@
               :tick $ assoc store :time op-data
       :ns $ quote
         ns app.updater $ :require
-          [] respo.cursor :refer $ [] update-states
+          respo.cursor :refer $ update-states

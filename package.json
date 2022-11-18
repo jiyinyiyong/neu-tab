@@ -11,6 +11,7 @@
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
     "cp": "cp entry/manifest.json dist && cp entry/neu.png dist",
+    "build": "cr --emit-js -1 && vite build --base=./",
     "crx": "yarn build && yarn cp-resources && zip -r neu-tab.zip dist/"
   },
   "repository": {
