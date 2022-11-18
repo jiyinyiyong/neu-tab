@@ -63,9 +63,14 @@
                 :on-click $ fn (e d!)
                   .replace js/location $ :link app
                 :href $ :link app
-              img $ {}
-                :src $ str "\"http://cdn.tiye.me/logo/" (:icon app)
-                :style $ {} (:width 80) (:height 80)
+              if-let
+                icon $ :icon app
+                img $ {}
+                  :src $ str "\"http://cdn.tiye.me/logo/" icon
+                  :style $ {} (:width 80) (:height 80)
+                div
+                  {} $ :class-name css-name-icon
+                  <> $ first (:name app)
               <> (:name app)
                 {} (:line-height "\"40px")
                   :color $ hsl 0 0 40
@@ -86,18 +91,25 @@
             "\"$0" $ {} (:transition-duration "\"240ms") (:width 120) (:margin "\"0 8px 8px 0") (:border-radius "\"32px") (:text-decoration :none) (:padding "\"18px 0 0 0")
             "\"$0:hover" $ {}
               :background-color $ hsl 0 0 95
+        |css-name-icon $ quote
+          defstyle css-name-icon $ {}
+            "\"$0" $ merge ui/center
+              {} (:width 80) (:height 80) (:font-size 60) (:border-radius "\"12px")
+                :color $ hsl 0 0 100
+                :background-color $ hsl 160 30 70
+                :font-family ui/font-fancy
         |quick-apps $ quote
           def quick-apps $ []
             {} (:name "\"EDN Formatter") (:key :edn-formatter) (:icon "\"edn-formatter.png") (:link "\"https://repo.tiye.me/mvc-works/edn-formatter/")
-            {} (:name "\"Calcit Editor") (:key :calcit) (:icon "\"cirru.png") (:link "\"http://calcit-editor.cirru.org")
+            {} (:name "\"Mudder") (:key :mudder) (:icon nil) (:link "\"https://r.tiye.me/worktools/mudder/")
             {} (:name "\"Copyboard") (:key :copyboard) (:icon "\"copyboard.png") (:link "\"http://cp.topix.im")
             {} (:name "\"Diff view") (:key :diffview) (:icon "\"diffview.png") (:link "\"http://r.tiye.me/Memkits/diffview/")
-            {} (:name "\"Copycat") (:key :copycat) (:icon "\"copycat.png") (:link "\"http://repo.topix.im/copycat/")
             {} (:name "\"Timegrass") (:key :timegrass) (:icon "\"timegrass.png") (:link "\"http://timegrass.topix.im/")
             {} (:name "\"Woodenlist") (:key :woodenlist) (:icon "\"woodenlist.png") (:link "\"http://wood.topix.im")
             {} (:name "\"Manuscript") (:key :manuscript) (:icon "\"manuscript.png") (:link "\"http://r.tiye.me/Memkits/manuscript/")
             {} (:name "\"Markdown Editor") (:key :markdown-editor) (:icon "\"markdown-editor.png") (:link "\"http://r.tiye.me/Memkits/markdown-editor/")
             {} (:name "\"Sedum Slide") (:key :sedum-slide) (:icon "\"sedum-icon.png") (:link "\"http://r.tiye.me/Memkits/sedum-slide/")
+            {} (:name "\"Calcit Editor") (:key :calcit) (:icon "\"cirru.png") (:link "\"http://calcit-editor.cirru.org")
       :ns $ quote
         ns app.comp.kits $ :require
           respo-ui.core :refer $ hsl
