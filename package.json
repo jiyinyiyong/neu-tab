@@ -11,6 +11,7 @@
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
     "cp": "cp entry/manifest.json dist && cp entry/neu.png dist",
+    "build": "cr --emit-js -1 && vite build --base=./",
     "crx": "yarn build && yarn cp-resources && zip -r neu-tab.zip dist/"
   },
   "repository": {
@@ -20,11 +21,11 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "vite": "^3.0.4"
+    "vite": "^3.2.4"
   },
   "dependencies": {
-    "@calcit/procs": "^0.6.2",
-    "dayjs": "^1.11.4",
+    "@calcit/procs": "^0.6.13",
+    "dayjs": "^1.11.6",
     "shortid": "^2.2.16"
   }
 }
