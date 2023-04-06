@@ -21,10 +21,10 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "vite": "^4.1.4"
+    "vite": "^4.2.1"
   },
   "dependencies": {
-    "@calcit/procs": "^0.6.23",
+    "@calcit/procs": "^0.6.26",
     "dayjs": "^1.11.7",
     "shortid": "^2.2.16"
   }

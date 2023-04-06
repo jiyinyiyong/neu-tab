@@ -60,8 +60,9 @@
             a
               {}
                 :class-name $ str-spaced css/center css-app
-                :on-click $ fn (e d!)
-                  .replace js/location $ :link app
+                ; :on-click $ fn (e d!)
+                  js/location.replace $ :link app
+                :target "\"_self"
                 :href $ :link app
               if-let
                 icon $ :icon app
@@ -88,7 +89,7 @@
                   [] (:key app) (comp-app app)
         |css-app $ quote
           defstyle css-app $ {}
-            "\"$0" $ {} (:transition-duration "\"240ms") (:width 120) (:margin "\"0 8px 8px 0") (:border-radius "\"32px") (:text-decoration :none) (:padding "\"18px 0 0 0")
+            "\"$0" $ {} (:transition-duration "\"240ms") (:width 120) (:margin "\"0 8px 8px 0") (:border-radius "\"32px") (:text-decoration :none) (:padding "\"18px 0 0 0") (:line-height "\"80px")
             "\"$0:hover" $ {}
               :background-color $ hsl 0 0 95
         |css-name-icon $ quote
