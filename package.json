@@ -21,7 +21,7 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "vite": "^4.4.11"
+    "vite": "^4.4.12"
   },
   "dependencies": {
     "@calcit/procs": "^0.8.4",
