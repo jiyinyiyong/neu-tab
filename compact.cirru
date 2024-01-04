@@ -72,7 +72,7 @@
                 if-let
                   icon $ :icon app
                   img $ {}
-                    :src $ str "\"http://cdn.tiye.me/logo/" icon
+                    :src $ str "\"https://cdn.tiye.me/logo/" icon
                     :style $ {} (:width 80) (:height 80)
                   div
                     {} $ :class-name css-name-icon

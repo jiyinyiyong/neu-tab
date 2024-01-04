@@ -394,7 +394,7 @@
                                   |j $ %{} :Expr (:at 1627501524475) (:by |rJG4IHzWf)
                                     :data $ {}
                                       |D $ %{} :Leaf (:at 1627501525705) (:by |rJG4IHzWf) (:text |str)
-                                      |L $ %{} :Leaf (:at 1627537825626) (:by |rJG4IHzWf) (:text "|\"http://cdn.tiye.me/logo/")
+                                      |L $ %{} :Leaf (:at 1704387279028) (:by |rJG4IHzWf) (:text "|\"https://cdn.tiye.me/logo/")
                                       |V $ %{} :Leaf (:at 1668768536772) (:by |rJG4IHzWf) (:text |icon)
                               |r $ %{} :Expr (:at 1536257000546) (:by |rJG4IHzWf)
                                 :data $ {}
