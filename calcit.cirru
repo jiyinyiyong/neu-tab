@@ -410,6 +410,14 @@
                                         :data $ {}
                                           |T $ %{} :Leaf (:at 1536257013454) (:by |rJG4IHzWf) (:text |:height)
                                           |j $ %{} :Leaf (:at 1536257014062) (:by |rJG4IHzWf) (:text |80)
+                                      |t $ %{} :Expr (:at 1705477564154) (:by |rJG4IHzWf)
+                                        :data $ {}
+                                          |T $ %{} :Leaf (:at 1705477564020) (:by |rJG4IHzWf) (:text |:backface-visibility)
+                                          |b $ %{} :Leaf (:at 1705477566704) (:by |rJG4IHzWf) (:text |:hidden)
+                                      |u $ %{} :Expr (:at 1705478334436) (:by |rJG4IHzWf)
+                                        :data $ {}
+                                          |D $ %{} :Leaf (:at 1705478338742) (:by |rJG4IHzWf) (:text |:image-rendering)
+                                          |T $ %{} :Leaf (:at 1705478341494) (:by |rJG4IHzWf) (:text "|\"-webkit-optimize-contrast")
                       |b $ %{} :Expr (:at 1668768540566) (:by |rJG4IHzWf)
                         :data $ {}
                           |T $ %{} :Leaf (:at 1668768541197) (:by |rJG4IHzWf) (:text |div)

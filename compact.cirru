@@ -73,7 +73,7 @@
                   icon $ :icon app
                   img $ {}
                     :src $ str "\"https://cdn.tiye.me/logo/" icon
-                    :style $ {} (:width 80) (:height 80)
+                    :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering "\"-webkit-optimize-contrast")
                   div
                     {} $ :class-name css-name-icon
                     <> $ first (:name app)
