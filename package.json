@@ -4,14 +4,14 @@
   "description": "ClojureScript workflow using Calcit Editor",
   "main": "index.js",
   "scripts": {
-    "watch-ssr": "cr --entry ssr --emit-path ssr-out/ --emit-js",
-    "compile-ssr": "cr --entry ssr --emit-path ssr-out/ --emit-js -1",
+    "watch-ssr": "cr --entry ssr --emit-path ssr-out/ js",
+    "compile-ssr": "cr --entry ssr --emit-path ssr-out/ js -1",
     "ssr": "yarn compile-ssr && node ssr.mjs",
     "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main-fonts.css -q --show-progress",
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
     "cp": "cp entry/manifest.json dist && cp entry/neu.png dist",
-    "build": "cr --emit-js -1 && vite build --base=./",
+    "build": "cr js -1 && vite build --base=./",
     "crx": "yarn build && yarn cp-resources && zip -r neu-tab.zip dist/"
   },
   "repository": {
@@ -24,7 +24,7 @@
     "vite": "^5.2.14"
   },
   "dependencies": {
-    "@calcit/procs": "^0.8.16",
-    "dayjs": "^1.11.10"
+    "@calcit/procs": "^0.9.6",
+    "dayjs": "^1.11.13"
   }
 }
