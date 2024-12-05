@@ -723,25 +723,6 @@
                         :data $ {}
                           |T $ %{} :Leaf (:at 1583948960708) (:by |rJG4IHzWf) (:text |:link)
                           |j $ %{} :Leaf (:at 1583948960708) (:by |rJG4IHzWf) (:text "|\"https://repo.tiye.me/mvc-works/edn-formatter/")
-                  |d $ %{} :Expr (:at 1583948960708) (:by |rJG4IHzWf)
-                    :data $ {}
-                      |T $ %{} :Leaf (:at 1583948960708) (:by |rJG4IHzWf) (:text |{})
-                      |j $ %{} :Expr (:at 1583948960708) (:by |rJG4IHzWf)
-                        :data $ {}
-                          |T $ %{} :Leaf (:at 1583948960708) (:by |rJG4IHzWf) (:text |:name)
-                          |j $ %{} :Leaf (:at 1668768486415) (:by |rJG4IHzWf) (:text "|\"Mudder")
-                      |r $ %{} :Expr (:at 1583948960708) (:by |rJG4IHzWf)
-                        :data $ {}
-                          |T $ %{} :Leaf (:at 1583948960708) (:by |rJG4IHzWf) (:text |:key)
-                          |j $ %{} :Leaf (:at 1668768490603) (:by |rJG4IHzWf) (:text |:mudder)
-                      |v $ %{} :Expr (:at 1583948960708) (:by |rJG4IHzWf)
-                        :data $ {}
-                          |T $ %{} :Leaf (:at 1583948960708) (:by |rJG4IHzWf) (:text |:icon)
-                          |j $ %{} :Leaf (:at 1668768515507) (:by |rJG4IHzWf) (:text |nil)
-                      |x $ %{} :Expr (:at 1583948960708) (:by |rJG4IHzWf)
-                        :data $ {}
-                          |T $ %{} :Leaf (:at 1583948960708) (:by |rJG4IHzWf) (:text |:link)
-                          |j $ %{} :Leaf (:at 1668768505217) (:by |rJG4IHzWf) (:text "|\"https://r.tiye.me/worktools/mudder/")
                   |j $ %{} :Expr (:at 1536070994799) (:by |rJG4IHzWf)
                     :data $ {}
                       |T $ %{} :Leaf (:at 1536070995461) (:by |rJG4IHzWf) (:text |{})

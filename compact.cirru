@@ -112,7 +112,6 @@
             def quick-apps $ []
               {} (:name "\"Tiye Index") (:key :edn-formatter) (:icon nil) (:link "\"https://fx.nioint.com/pages/tiye-index/")
               {} (:name "\"EDN Formatter") (:key :edn-formatter) (:icon "\"edn-formatter.png") (:link "\"https://repo.tiye.me/mvc-works/edn-formatter/")
-              {} (:name "\"Mudder") (:key :mudder) (:icon nil) (:link "\"https://r.tiye.me/worktools/mudder/")
               {} (:name "\"Copyboard") (:key :copyboard) (:icon "\"copyboard.png") (:link "\"http://cp.topix.im")
               {} (:name "\"Diff view") (:key :diffview) (:icon "\"diffview.png") (:link "\"http://r.tiye.me/Memkits/diffview/")
               {} (:name "\"Timegrass") (:key :timegrass) (:icon "\"timegrass.png") (:link "\"http://timegrass.topix.im/")
