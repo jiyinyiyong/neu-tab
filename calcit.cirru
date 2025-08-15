@@ -837,6 +837,25 @@
                         :data $ {}
                           |D $ %{} :Leaf (:at 1536071088708) (:by |rJG4IHzWf) (:text |:link)
                           |T $ %{} :Leaf (:at 1627501741686) (:by |rJG4IHzWf) (:text "|\"http://r.tiye.me/Memkits/markdown-editor/")
+                  |yt $ %{} :Expr (:at 1536070994799) (:by |rJG4IHzWf)
+                    :data $ {}
+                      |T $ %{} :Leaf (:at 1536070995461) (:by |rJG4IHzWf) (:text |{})
+                      |j $ %{} :Expr (:at 1536070995646) (:by |rJG4IHzWf)
+                        :data $ {}
+                          |T $ %{} :Leaf (:at 1536070996617) (:by |rJG4IHzWf) (:text |:name)
+                          |j $ %{} :Leaf (:at 1755281190251) (:by |rJG4IHzWf) (:text "|\"Mermaid Clean")
+                      |r $ %{} :Expr (:at 1536071002115) (:by |rJG4IHzWf)
+                        :data $ {}
+                          |T $ %{} :Leaf (:at 1536071006876) (:by |rJG4IHzWf) (:text |:key)
+                          |j $ %{} :Leaf (:at 1755281145248) (:by |rJG4IHzWf) (:text |:mermaid-clean)
+                      |v $ %{} :Expr (:at 1536071010240) (:by |rJG4IHzWf)
+                        :data $ {}
+                          |T $ %{} :Leaf (:at 1536071012666) (:by |rJG4IHzWf) (:text |:icon)
+                          |j $ %{} :Leaf (:at 1755281181702) (:by |rJG4IHzWf) (:text "|\"mermaid-clean.png")
+                      |x $ %{} :Expr (:at 1536071062946) (:by |rJG4IHzWf)
+                        :data $ {}
+                          |D $ %{} :Leaf (:at 1536071088708) (:by |rJG4IHzWf) (:text |:link)
+                          |T $ %{} :Leaf (:at 1755281158053) (:by |rJG4IHzWf) (:text "|\"http://r.tiye.me/worktools/mermaid-clean/")
                   |yv $ %{} :Expr (:at 1536070994799) (:by |rJG4IHzWf)
                     :data $ {}
                       |T $ %{} :Leaf (:at 1536070995461) (:by |rJG4IHzWf) (:text |{})

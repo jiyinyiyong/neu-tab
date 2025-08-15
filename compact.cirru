@@ -118,6 +118,7 @@
               {} (:name "\"Woodenlist") (:key :woodenlist) (:icon "\"woodenlist.png") (:link "\"http://wood.topix.im")
               {} (:name "\"Manuscript") (:key :manuscript) (:icon "\"manuscript.png") (:link "\"http://r.tiye.me/Memkits/manuscript/")
               {} (:name "\"Markdown Editor") (:key :markdown-editor) (:icon "\"markdown-editor.png") (:link "\"http://r.tiye.me/Memkits/markdown-editor/")
+              {} (:name "\"Mermaid Clean") (:key :mermaid-clean) (:icon "\"mermaid-clean.png") (:link "\"http://r.tiye.me/worktools/mermaid-clean/")
               {} (:name "\"Sedum Slide") (:key :sedum-slide) (:icon "\"sedum-icon.png") (:link "\"http://r.tiye.me/Memkits/sedum-slide/")
               {} (:name "\"Calcit Editor") (:key :calcit) (:icon "\"cirru.png") (:link "\"http://calcit-editor.cirru.org")
       :ns $ %{} :CodeEntry (:doc |)
