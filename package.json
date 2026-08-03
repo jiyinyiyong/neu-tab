@@ -4,15 +4,15 @@
   "description": "ClojureScript workflow using Calcit Editor",
   "main": "index.js",
   "scripts": {
-    "watch-ssr": "cr --entry ssr --emit-path ssr-out/ js",
-    "compile-ssr": "cr --entry ssr --emit-path ssr-out/ js -1",
+    "watch-ssr": "cr calcit.cirru --entry ssr --emit-path ssr-out/",
+    "compile-ssr": "cr calcit.cirru --entry ssr --emit-path ssr-out/",
     "ssr": "yarn compile-ssr && node ssr.mjs",
     "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main-fonts.css -q --show-progress",
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
     "cp": "cp entry/manifest.json dist && cp entry/neu.png dist",
-    "build": "cr js -1 && vite build --base=./",
-    "crx": "yarn build && yarn cp-resources && zip -r neu-tab.zip dist/"
+    "build": "cr calcit.cirru && vite build --base=./",
+    "crx": "yarn build && yarn cp && zip -r neu-tab.zip dist/"
   },
   "repository": {
     "type": "git",
@@ -21,11 +21,11 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "vite": "^7.3.5"
+    "vite": "^8.2.0"
   },
   "dependencies": {
-    "@calcit/procs": "^0.9.18",
+    "@calcit/procs": "^0.12.59",
     "dayjs": "^1.11.13"
   },
-  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  "packageManager": "yarn@4.12.0"
 }
