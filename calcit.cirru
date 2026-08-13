@@ -40,7 +40,9 @@
                   <> $ str (.!format now |dddd)
                     {} (:font-size 40) (:font-weight 300) (:margin-bottom 8)
                   =< 8 nil
-                  (<> (format-week (unsafe-coerce (.!week now) 'Number)) ({} (:margin-bottom 26)))
+                  <>
+                    format-week $ unsafe-coerce (.!week now) 'Number
+                    {} $ :margin-bottom 26
                   =< 24 nil
                   <> $ str (.!format now |HH:mm)
                     {} (:font-size 100) (:font-weight 100) (:line-height |120px)
@@ -76,19 +78,18 @@
             defcomp comp-app (app)
               let
                   icon $ &struct:get app :icon
-                  icon-node $ if (js-present? icon)
+                a
+                  {}
+                    :class-name $ str-spaced css/center css-app
+                    :target |_self
+                    :href $ &struct:get app :link
+                  if (js-present? icon)
                     img $ {}
                       :src $ str |https://cdn.tiye.me/logo/ icon
                       :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering |-webkit-optimize-contrast)
                     div
                       {} $ :class-name css-name-icon
                       <> $ &str:slice (&struct:get app :name) 0 1
-                a
-                  {}
-                    :class-name $ str-spaced css/center css-app
-                    :target |_self
-                    :href $ &struct:get app :link
-                  icon-node
                   <> (&struct:get app :name)
                     {} (:line-height |40px)
                       :color $ hsl 0 0 40
@@ -201,7 +202,7 @@
               :args $ [] 'Dynamic
         |main! $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            defn main! () do (.!extend dayjs weekOfYear)
+            defn main! () (.!extend dayjs weekOfYear)
               println "|Running mode:" $ if config/dev? |dev |release
               if ssr? (render-app! realize-ssr!) (render-app! render!)
               add-watch *reel :changes $ fn (r p) (render-app! render!)
@@ -230,10 +231,9 @@
         |persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! (? e)
-              do
-                js/localStorage.setItem (&struct:get config/site :storage-key)
-                  format-cirru-edn $ reel.schema/read-field @*reel :store
-                , nil
+              js/localStorage.setItem (&struct:get config/site :storage-key)
+                format-cirru-edn $ reel.schema/read-field @*reel :store
+              , nil
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'Unit)
@@ -252,7 +252,7 @@
               :features $ #{} :js-ffi
         |render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            defn render-app! (renderer) do (renderer mount-target comp-container @*reel dispatch!) nil
+            defn render-app! (renderer) (renderer mount-target comp-container @*reel dispatch!) nil
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'Unit)
@@ -284,7 +284,10 @@
           :schema $ :: 'app.types/AppData
         |store $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def store $ %{} app.types/StoreData (:states {}) (:content |) (:time 0)
+            def store $ %{} app.types/StoreData
+              :states $ {}
+              :content |
+              :time 0
           :examples $ []
           :schema $ :: 'app.types/StoreData
       :ns $ %{} 'NsEntry (:doc |)
