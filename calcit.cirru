@@ -179,7 +179,7 @@
           :code $ quote
             def site $ %{} app.types/SiteConfig (:dev-ui |http://localhost:8100/main.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main.css) (:local-ui |/cdn.tiye.me/favored-fonts/main.css) (:cdn-url |http://cdn.tiye.me/neu-page/) (:title "|Neu Page") (:icon |http://cdn.tiye.me/logo/tiye.jpg) (:local-icon |/neu.png) (:storage-key |neu-page)
           :examples $ []
-          :schema $ :: 'app.schema/SiteConfig2
+          :schema $ :: 'app.types/SiteConfig
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.config $ :require
@@ -283,12 +283,12 @@
           :code $ quote
             def app $ %{} app.types/AppData (:key :tiye) (:name "|Tiye Index") (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
           :examples $ []
-          :schema $ :: 'app.schema/AppData2
+          :schema $ :: 'app.types/AppData
         |store $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def store $ %{} app.types/StoreData (:states {}) (:content |) (:time 0)
           :examples $ []
-          :schema $ :: 'app.schema/StoreData2
+          :schema $ :: 'app.types/StoreData
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns app.schema)
     |app.ssr $ %{} 'FileEntry
