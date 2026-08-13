@@ -146,7 +146,7 @@
               {} (:name "|Sedum Slide") (:key :sedum-slide) (:icon |sedum-icon.png) (:link |http://r.tiye.me/Memkits/sedum-slide/)
               {} (:name "|Calcit Editor") (:key :calcit) (:icon |cirru.png) (:link |http://calcit-editor.cirru.org)
           :examples $ []
-          :schema $ :: 'List 'app.schema/AppData2
+          :schema $ :: 'List 'app.types/AppData
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.comp.kits $ :require
@@ -370,8 +370,8 @@
                 _ $ do (eprintln "|unknown op:" op) store
           :examples $ []
           :schema $ :: 'Fn
-            {} (:return 'app.schema/StoreData2)
-              :args $ [] 'app.schema/Store 'Dynamic 'String 'Number
+            {} (:return 'app.types/StoreData)
+              :args $ [] 'app.types/StoreData 'Dynamic 'String 'Number
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.updater $ :require
