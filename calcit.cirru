@@ -95,7 +95,7 @@
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
-              :args $ [] 'app.schema/AppData2
+              :args $ [] 'app.types/AppData
         |comp-kits $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-kits () $ div
@@ -146,7 +146,7 @@
               {} (:name "|Sedum Slide") (:key :sedum-slide) (:icon |sedum-icon.png) (:link |http://r.tiye.me/Memkits/sedum-slide/)
               {} (:name "|Calcit Editor") (:key :calcit) (:icon |cirru.png) (:link |http://calcit-editor.cirru.org)
           :examples $ []
-          :schema $ :: 'List 'app.schema/App
+          :schema $ :: 'List 'app.schema/AppData2
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.comp.kits $ :require
@@ -177,9 +177,9 @@
           :schema $ :: 'Bool
         |site $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def site $ %{} app.schema/SiteConfig2 (:dev-ui |http://localhost:8100/main.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main.css) (:local-ui |/cdn.tiye.me/favored-fonts/main.css) (:cdn-url |http://cdn.tiye.me/neu-page/) (:title "|Neu Page") (:icon |http://cdn.tiye.me/logo/tiye.jpg) (:local-icon |/neu.png) (:storage-key |neu-page)
+            def site $ %{} app.types/SiteConfig (:dev-ui |http://localhost:8100/main.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main.css) (:local-ui |/cdn.tiye.me/favored-fonts/main.css) (:cdn-url |http://cdn.tiye.me/neu-page/) (:title "|Neu Page") (:icon |http://cdn.tiye.me/logo/tiye.jpg) (:local-icon |/neu.png) (:storage-key |neu-page)
           :examples $ []
-          :schema $ :: 'app.schema/SiteConfig
+          :schema $ :: 'app.schema/SiteConfig2
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.config $ :require
@@ -279,31 +279,16 @@
             |dayjs :default dayjs
     |app.schema $ %{} 'FileEntry
       :defs $ {}
-        |AppData2 $ %{} 'CodeEntry (:doc |)
-          :code $ quote
-            defstruct AppData2 (:key 'Tag) (:name 'String) (:icon 'Dynamic) (:link 'String)
-          :examples $ []
-          :schema $ :: 'Dynamic
-        |SiteConfig2 $ %{} 'CodeEntry (:doc |)
-          :code $ quote
-            defstruct SiteConfig2 (:dev-ui 'String) (:release-ui 'String) (:local-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:local-icon 'String) (:storage-key 'String)
-          :examples $ []
-          :schema $ :: 'Dynamic
-        |StoreData2 $ %{} 'CodeEntry (:doc |)
-          :code $ quote
-            defstruct StoreData2 (:states 'Map) (:content 'String) (:time 'Number)
-          :examples $ []
-          :schema $ :: 'Dynamic
         |app $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def app $ %{} app.schema/AppData2 (:key :tiye) (:name "|Tiye Index") (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
+            def app $ %{} app.types/AppData (:key :tiye) (:name "|Tiye Index") (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
           :examples $ []
-          :schema $ :: 'app.schema/AppData
+          :schema $ :: 'app.schema/AppData2
         |store $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def store $ %{} app.schema/StoreData2 (:states {}) (:content |) (:time 0)
+            def store $ %{} app.types/StoreData (:states {}) (:content |) (:time 0)
           :examples $ []
-          :schema $ :: 'app.schema/StoreData
+          :schema $ :: 'app.schema/StoreData2
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns app.schema)
     |app.ssr $ %{} 'FileEntry
@@ -353,6 +338,25 @@
             respo.css :refer $ *style-list-in-nodejs
             |dayjs :default dayjs
             |dayjs/plugin/weekOfYear.js :default weekOfYear
+    |app.types $ %{} 'FileEntry
+      :defs $ {}
+        |AppData $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defstruct AppData (:key 'Tag) (:name 'String) (:icon 'Dynamic) (:link 'String)
+          :examples $ []
+          :schema $ :: 'Dynamic
+        |SiteConfig $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:local-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:local-icon 'String) (:storage-key 'String)
+          :examples $ []
+          :schema $ :: 'Dynamic
+        |StoreData $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defstruct StoreData (:states 'Map) (:content 'String) (:time 'Number)
+          :examples $ []
+          :schema $ :: 'Dynamic
+      :ns $ %{} 'NsEntry (:doc |)
+        :code $ quote (ns app.types)
     |app.updater $ %{} 'FileEntry
       :defs $ {}
         |updater $ %{} 'CodeEntry (:doc |)
@@ -366,7 +370,7 @@
                 _ $ do (eprintln "|unknown op:" op) store
           :examples $ []
           :schema $ :: 'Fn
-            {} (:return 'app.schema/Store)
+            {} (:return 'app.schema/StoreData2)
               :args $ [] 'app.schema/Store 'Dynamic 'String 'Number
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
