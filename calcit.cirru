@@ -8,24 +8,26 @@
       :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
       :type-slots $ {}
   :files $ {}
-    |app.comp.container $ %{} :FileEntry
+    |app.comp.container $ %{} 'FileEntry
       :defs $ {}
-        |comp-container $ %{} :CodeEntry (:doc |)
+        |comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-container (reel)
               let
-                  store $ :store reel
-                  states $ :states store
+                  store $ reel.schema/read-field reel :store
+                  states $ reel.schema/read-field store :states
                 div
                   {}
                     :class-name $ str-spaced css/global css/fullscreen css/center
                     :style $ {} (:background-color "|rgb(231,234,237)")
-                  comp-time $ :time store
+                  comp-time $ reel.schema/read-field store :time
                   comp-kits
                   when dev? $ comp-reel (>> states :reel) reel ({})
           :examples $ []
-          :schema $ :: 'Dynamic
-        |comp-time $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ [] 'Dynamic
+        |comp-time $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-time (x)
               let
@@ -35,24 +37,28 @@
                     merge ui/row $ {} (:font-family ui/font-fancy)
                       :color $ hsl 0 0 70
                       :align-items :flex-end
-                  <> (.!format now |dddd)
+                  <> $ str (.!format now |dddd)
                     {} (:font-size 40) (:font-weight 300) (:margin-bottom 8)
                   =< 8 nil
                   <>
-                    format-week $ .!week now
+                    format-week $ unsafe-coerce (.!week now) 'Number
                     {} $ :margin-bottom 26
                   =< 24 nil
-                  <> (.!format now |HH:mm)
+                  <> $ str (.!format now |HH:mm)
                     {} (:font-size 100) (:font-weight 100) (:line-height |120px)
           :examples $ []
-          :schema $ :: 'Dynamic
-        |format-week $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ [] 'Number
+        |format-week $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn format-week (week)
               case-default week (str week |th) (1 |1st) (2 |2nd) (3 |3rd)
           :examples $ []
-          :schema $ :: 'Dynamic
-      :ns $ %{} :NsEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'String)
+              :args $ [] 'Number
+      :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.comp.container $ :require
             respo-ui.core :refer $ hsl
@@ -65,32 +71,33 @@
             app.config :refer $ dev?
             app.comp.kits :refer $ comp-kits
             |dayjs :default dayjs
-    |app.comp.kits $ %{} :FileEntry
+    |app.comp.kits $ %{} 'FileEntry
       :defs $ {}
-        |comp-app $ %{} :CodeEntry (:doc |)
+        |comp-app $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-app (app)
-              a
-                {}
-                  :class-name $ str-spaced css/center css-app
-                  ; :on-click $ fn (e d!)
-                    js/location.replace $ :link app
-                  :target |_self
-                  :href $ :link app
-                if-let
-                  icon $ :icon app
-                  img $ {}
-                    :src $ str |https://cdn.tiye.me/logo/ icon
-                    :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering |-webkit-optimize-contrast)
-                  div
-                    {} $ :class-name css-name-icon
-                    <> $ first (:name app)
-                <> (:name app)
-                  {} (:line-height |40px)
-                    :color $ hsl 0 0 40
+              let
+                  icon $ &struct:get app :icon
+                a
+                  {}
+                    :class-name $ str-spaced css/center css-app
+                    :target |_self
+                    :href $ &struct:get app :link
+                  if (js-present? icon)
+                    img $ {}
+                      :src $ str |https://cdn.tiye.me/logo/ icon
+                      :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering |-webkit-optimize-contrast)
+                    div
+                      {} $ :class-name css-name-icon
+                      <> $ &str:slice (&struct:get app :name) 0 1
+                  <> (&struct:get app :name)
+                    {} (:line-height |40px)
+                      :color $ hsl 0 0 40
           :examples $ []
-          :schema $ :: 'Dynamic
-        |comp-kits $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ [] 'app.types/AppData
+        |comp-kits $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-kits () $ div
               {} (:class-name css/column)
@@ -102,18 +109,20 @@
                   :style $ {} (:flex-wrap :wrap)
                 -> quick-apps $ map
                   fn (app)
-                    [] (:key app) (comp-app app)
+                    [] (&struct:get app :key) (comp-app app)
           :examples $ []
-          :schema $ :: 'Dynamic
-        |css-app $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ []
+        |css-app $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle css-app $ {}
               |$0 $ {} (:transition-duration |240ms) (:width 120) (:margin "|0 8px 8px 0") (:border-radius |32px) (:text-decoration :none) (:padding "|18px 0 0 0") (:line-height |80px)
               |$0:hover $ {}
                 :background-color $ hsl 0 0 95
           :examples $ []
-          :schema $ :: 'Dynamic
-        |css-name-icon $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Map
+        |css-name-icon $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle css-name-icon $ {}
               |$0 $ merge ui/center
@@ -122,24 +131,24 @@
                   :background-color $ hsl 160 30 70
                   :font-family ui/font-fancy
           :examples $ []
-          :schema $ :: 'Dynamic
-        |quick-apps $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Map
+        |quick-apps $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def quick-apps $ []
-              {} (:name "|Tiye Index") (:key :edn-formatter) (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
-              {} (:name "|EDN Formatter") (:key :edn-formatter) (:icon |edn-formatter.png) (:link |https://repo.tiye.me/mvc-works/edn-formatter/)
-              {} (:name |Copyboard) (:key :copyboard) (:icon |copyboard.png) (:link |http://cp.topix.im)
-              {} (:name "|Diff view") (:key :diffview) (:icon |diffview.png) (:link |http://r.tiye.me/Memkits/diffview/)
-              {} (:name |Timegrass) (:key :timegrass) (:icon |timegrass.png) (:link |http://timegrass.topix.im/)
-              {} (:name |Woodenlist) (:key :woodenlist) (:icon |woodenlist.png) (:link |http://wood.topix.im)
-              {} (:name |Manuscript) (:key :manuscript) (:icon |manuscript.png) (:link |http://r.tiye.me/Memkits/manuscript/)
-              {} (:name "|Markdown Editor") (:key :markdown-editor) (:icon |markdown-editor.png) (:link |http://r.tiye.me/Memkits/markdown-editor/)
-              {} (:name "|Mermaid Clean") (:key :mermaid-clean) (:icon |mermaid-clean.png) (:link |http://r.tiye.me/worktools/mermaid-clean/)
-              {} (:name "|Sedum Slide") (:key :sedum-slide) (:icon |sedum-icon.png) (:link |http://r.tiye.me/Memkits/sedum-slide/)
-              {} (:name "|Calcit Editor") (:key :calcit) (:icon |cirru.png) (:link |http://calcit-editor.cirru.org)
+              %{} app.types/AppData (:name "|Tiye Index") (:key :edn-formatter) (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
+              %{} app.types/AppData (:name "|EDN Formatter") (:key :edn-formatter) (:icon |edn-formatter.png) (:link |https://repo.tiye.me/mvc-works/edn-formatter/)
+              %{} app.types/AppData (:name |Copyboard) (:key :copyboard) (:icon |copyboard.png) (:link |http://cp.topix.im)
+              %{} app.types/AppData (:name "|Diff view") (:key :diffview) (:icon |diffview.png) (:link |http://r.tiye.me/Memkits/diffview/)
+              %{} app.types/AppData (:name |Timegrass) (:key :timegrass) (:icon |timegrass.png) (:link |http://timegrass.topix.im/)
+              %{} app.types/AppData (:name |Woodenlist) (:key :woodenlist) (:icon |woodenlist.png) (:link |http://wood.topix.im)
+              %{} app.types/AppData (:name |Manuscript) (:key :manuscript) (:icon |manuscript.png) (:link |http://r.tiye.me/Memkits/manuscript/)
+              %{} app.types/AppData (:name "|Markdown Editor") (:key :markdown-editor) (:icon |markdown-editor.png) (:link |http://r.tiye.me/Memkits/markdown-editor/)
+              %{} app.types/AppData (:name "|Mermaid Clean") (:key :mermaid-clean) (:icon |mermaid-clean.png) (:link |http://r.tiye.me/worktools/mermaid-clean/)
+              %{} app.types/AppData (:name "|Sedum Slide") (:key :sedum-slide) (:icon |sedum-icon.png) (:link |http://r.tiye.me/Memkits/sedum-slide/)
+              %{} app.types/AppData (:name "|Calcit Editor") (:key :calcit) (:icon |cirru.png) (:link |http://calcit-editor.cirru.org)
           :examples $ []
-          :schema $ :: 'Dynamic
-      :ns $ %{} :NsEntry (:doc |)
+          :schema $ :: 'List 'app.types/AppData
+      :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.comp.kits $ :require
             respo-ui.core :refer $ hsl
@@ -150,9 +159,9 @@
             respo.comp.space :refer $ =<
             respo-md.comp.md :refer $ comp-md
             app.config :refer $ dev?
-    |app.config $ %{} :FileEntry
+    |app.config $ %{} 'FileEntry
       :defs $ {}
-        |cdn? $ %{} :CodeEntry (:doc |)
+        |cdn? $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def cdn? $ cond
                 exists? js/window
@@ -160,35 +169,38 @@
               (exists? js/process) (= |true js/process.env.cdn)
               :else false
           :examples $ []
-          :schema $ :: 'Dynamic
-        |dev? $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Bool
+        |dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def dev? $ = |dev (get-env |mode |release)
+            def dev? $ = |dev
+              option:unwrap-or (get-env |mode) |release
           :examples $ []
-          :schema $ :: 'Dynamic
-        |site $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Bool
+        |site $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def site $ {} (:dev-ui |http://localhost:8100/main.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main.css) (:local-ui |/cdn.tiye.me/favored-fonts/main.css) (:cdn-url |http://cdn.tiye.me/neu-page/) (:title "|Neu Page") (:icon |http://cdn.tiye.me/logo/tiye.jpg) (:local-icon |/neu.png) (:storage-key |neu-page)
+            def site $ %{} app.types/SiteConfig (:dev-ui |http://localhost:8100/main.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main.css) (:local-ui |/cdn.tiye.me/favored-fonts/main.css) (:cdn-url |http://cdn.tiye.me/neu-page/) (:title "|Neu Page") (:icon |http://cdn.tiye.me/logo/tiye.jpg) (:local-icon |/neu.png) (:storage-key |neu-page)
           :examples $ []
-          :schema $ :: 'Dynamic
-      :ns $ %{} :NsEntry (:doc |)
+          :schema $ :: 'app.types/SiteConfig
+      :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.config $ :require
-            cumulo-util.core :refer $ get-env!
-    |app.main $ %{} :FileEntry
+            cumulo-util.core :refer $
+    |app.main $ %{} 'FileEntry
       :defs $ {}
-        |*reel $ %{} :CodeEntry (:doc |)
+        |*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
           :examples $ []
           :schema $ :: 'Dynamic
-        |dispatch! $ %{} :CodeEntry (:doc |)
+        |dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn dispatch! (op) (; println |Dispatch: op)
               reset! *reel $ reel-updater updater @*reel op
           :examples $ []
-          :schema $ :: 'Dynamic
-        |main! $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ [] 'Dynamic
+        |main! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn main! () (.!extend dayjs weekOfYear)
               println "|Running mode:" $ if config/dev? |dev |release
@@ -200,48 +212,57 @@
               timeout-call 1 $ fn (? a)
                 dispatch! $ :: :tick (js/Date.now)
               let
-                  raw $ js/localStorage.getItem (:storage-key config/site)
-                when (some? raw)
-                  dispatch! $ :: :hydrate-storage (parse-cirru-edn raw)
-                  dispatch! $ :: :tick (js/Date.now)
+                  raw $ js/localStorage.getItem (&struct:get config/site :storage-key)
+                when (js-present? raw)
+                  dispatch! $ :: :hydrate-storage
+                    parse-cirru-edn $ unsafe-coerce raw 'String
+              dispatch! $ :: :tick (js/Date.now)
               println "|App started."
           :examples $ []
           :schema $ :: 'Fn
-            {} (:return 'Dynamic)
+            {} (:return 'Unit)
               :args $ []
               :features $ #{} :js-ffi
-        |mount-target $ %{} :CodeEntry (:doc |)
+        |mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def mount-target $ js/document.querySelector |.app
           :examples $ []
           :schema $ :: 'Dynamic
-        |persist-storage! $ %{} :CodeEntry (:doc |)
+        |persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! (? e)
-              js/localStorage.setItem (:storage-key config/site)
-                format-cirru-edn $ :store @*reel
+              js/localStorage.setItem (&struct:get config/site :storage-key)
+                format-cirru-edn $ reel.schema/read-field @*reel :store
+              , nil
           :examples $ []
-          :schema $ :: 'Dynamic
-        |reload! $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ [] 'Dynamic
+              :features $ #{} :js-ffi
+        |reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn reload! () (clear-cache!) (remove-watch *reel :changes)
               add-watch *reel :changes $ fn (r p) (render-app! render!)
               reset! *reel $ refresh-reel @*reel schema/store updater
               println "|Code updated."
           :examples $ []
-          :schema $ :: 'Dynamic
-        |render-app! $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ []
+              :features $ #{} :js-ffi
+        |render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            defn render-app! (renderer)
-              renderer mount-target (comp-container @*reel) dispatch!
+            defn render-app! (renderer) (renderer mount-target comp-container @*reel dispatch!) nil
           :examples $ []
-          :schema $ :: 'Dynamic
-        |ssr? $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ [] 'Fn
+        |ssr? $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def ssr? $ some? (js/document.querySelector |div[data-ssr])
+            def ssr? $ js-present? (js/document.querySelector |div[data-ssr])
           :examples $ []
-          :schema $ :: 'Dynamic
-      :ns $ %{} :NsEntry (:doc |)
+          :schema $ :: 'Bool
+      :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.main $ :require
             respo.core :refer $ render! clear-cache! realize-ssr!
@@ -254,36 +275,42 @@
             app.config :as config
             |dayjs/plugin/weekOfYear :default weekOfYear
             |dayjs :default dayjs
-    |app.schema $ %{} :FileEntry
+    |app.schema $ %{} 'FileEntry
       :defs $ {}
-        |app $ %{} :CodeEntry (:doc |)
+        |app $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def app $ {} (:key nil) (:name nil) (:icon nil) (:link nil) (:description nil)
+            def app $ %{} app.types/AppData (:key :tiye) (:name "|Tiye Index") (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
           :examples $ []
-          :schema $ :: 'Dynamic
-        |store $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'app.types/AppData
+        |store $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def store $ {}
+            def store $ %{} app.types/StoreData
               :states $ {}
               :content |
               :time 0
           :examples $ []
-          :schema $ :: 'Dynamic
-      :ns $ %{} :NsEntry (:doc |)
+          :schema $ :: 'app.types/StoreData
+      :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns app.schema)
-    |app.ssr $ %{} :FileEntry
+    |app.ssr $ %{} 'FileEntry
       :defs $ {}
-        |main! $ %{} :CodeEntry (:doc |)
+        |main! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn main! () (.!extend dayjs weekOfYear) (render-page!)
           :examples $ []
-          :schema $ :: 'Dynamic
-        |reload! $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ []
+              :features $ #{} :js-ffi
+        |reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn reload! () $ render-page!
           :examples $ []
-          :schema $ :: 'Dynamic
-        |render-page! $ %{} :CodeEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ []
+              :features $ #{} :js-ffi
+        |render-page! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn render-page! () $ let
                 p |dist/index.html
@@ -297,8 +324,11 @@
               fs/writeFileSync p new-html
               println "|Wrote to" p
           :examples $ []
-          :schema $ :: 'Dynamic
-      :ns $ %{} :NsEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ []
+              :features $ #{} :js-ffi
+      :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.ssr $ :require
             app.comp.container :refer $ comp-container
@@ -309,9 +339,28 @@
             respo.css :refer $ *style-list-in-nodejs
             |dayjs :default dayjs
             |dayjs/plugin/weekOfYear.js :default weekOfYear
-    |app.updater $ %{} :FileEntry
+    |app.types $ %{} 'FileEntry
       :defs $ {}
-        |updater $ %{} :CodeEntry (:doc |)
+        |AppData $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defstruct AppData (:key 'Tag) (:name 'String) (:icon 'Dynamic) (:link 'String)
+          :examples $ []
+          :schema $ :: 'Dynamic
+        |SiteConfig $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:local-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:local-icon 'String) (:storage-key 'String)
+          :examples $ []
+          :schema $ :: 'Dynamic
+        |StoreData $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defstruct StoreData (:states 'Map) (:content 'String) (:time 'Number)
+          :examples $ []
+          :schema $ :: 'Dynamic
+      :ns $ %{} 'NsEntry (:doc |)
+        :code $ quote (ns app.types)
+    |app.updater $ %{} 'FileEntry
+      :defs $ {}
+        |updater $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn updater (store op op-id op-time)
               tag-match op
@@ -321,8 +370,10 @@
                 (:tick t) (assoc store :time t)
                 _ $ do (eprintln "|unknown op:" op) store
           :examples $ []
-          :schema $ :: 'Dynamic
-      :ns $ %{} :NsEntry (:doc |)
+          :schema $ :: 'Fn
+            {} (:return 'app.types/StoreData)
+              :args $ [] 'app.types/StoreData 'Dynamic 'String 'Number
+      :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.updater $ :require
             respo.cursor :refer $ update-states
