@@ -77,24 +77,21 @@
           :code $ quote
             defcomp comp-app (app)
               let
-                  icon $
-                    :icon app
+                  icon $ app.:icon
                 a
                   {}
                     :class-name $ str-spaced css/center css-app
                     :target |_self
-                    :href $
-                      :link app
+                    :href $ app.:link
                   if (js-present? icon)
                     img $ {}
                       :src $ str |https://cdn.tiye.me/logo/ icon
                       :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering |-webkit-optimize-contrast)
                     div
                       {} $ :class-name css-name-icon
-                      <> $ &str:slice (:name app) 0 1
-                  <> (:name app)
-                    {} (:line-height |40px)
-                      :color $ hsl 0 0 40
+                      <> $ &str:slice app.:name 0 1
+                  <> app.:name $ {} (:line-height |40px)
+                    :color $ hsl 0 0 40
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
@@ -111,7 +108,7 @@
                   :style $ {} (:flex-wrap :wrap)
                 -> quick-apps $ map
                   fn (app)
-                    [] (:key app) (comp-app app)
+                    [] app.:key $ comp-app app
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
