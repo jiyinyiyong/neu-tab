@@ -24,7 +24,7 @@
     "vite": "^8.2.0"
   },
   "dependencies": {
-    "@calcit/procs": "^0.13.15",
+    "@calcit/procs": "^0.13.19",
     "dayjs": "^1.11.13"
   },
   "packageManager": "yarn@4.12.0"
