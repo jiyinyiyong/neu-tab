@@ -77,22 +77,21 @@
           :code $ quote
             defcomp comp-app (app)
               let
-                  icon $ &struct:get app :icon
+                  icon $ app.:icon
                 a
                   {}
                     :class-name $ str-spaced css/center css-app
                     :target |_self
-                    :href $ &struct:get app :link
+                    :href $ app.:link
                   if (js-present? icon)
                     img $ {}
                       :src $ str |https://cdn.tiye.me/logo/ icon
                       :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering |-webkit-optimize-contrast)
                     div
                       {} $ :class-name css-name-icon
-                      <> $ &str:slice (&struct:get app :name) 0 1
-                  <> (&struct:get app :name)
-                    {} (:line-height |40px)
-                      :color $ hsl 0 0 40
+                      <> $ &str:slice app.:name 0 1
+                  <> app.:name $ {} (:line-height |40px)
+                    :color $ hsl 0 0 40
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
@@ -109,7 +108,7 @@
                   :style $ {} (:flex-wrap :wrap)
                 -> quick-apps $ map
                   fn (app)
-                    [] (&struct:get app :key) (comp-app app)
+                    [] app.:key $ comp-app app
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
@@ -212,7 +211,7 @@
               timeout-call 1 $ fn (? a)
                 dispatch! $ :: :tick (js/Date.now)
               let
-                  raw $ js/localStorage.getItem (&struct:get config/site :storage-key)
+                  raw $ js/localStorage.getItem (:storage-key config/site)
                 when (js-present? raw)
                   dispatch! $ :: :hydrate-storage
                     parse-cirru-edn $ unsafe-coerce raw 'String
@@ -231,7 +230,7 @@
         |persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! (? e)
-              js/localStorage.setItem (&struct:get config/site :storage-key)
+              js/localStorage.setItem (:storage-key config/site)
                 format-cirru-edn $ reel.schema/read-field @*reel :store
               , nil
           :examples $ []
