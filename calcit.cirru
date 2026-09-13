@@ -38,7 +38,7 @@
         'comp-time $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-time (x)
             let
-                now $ dayjs x
+                now $ unsafe-coerce (dayjs x) 'app.ffi/DayjsValue
               div
                 {} $ :style $ merge ui/row
                   {} (:font-family ui/font-fancy)
@@ -57,6 +57,7 @@
           :schema $ :: 'Fn $ {}
             :return 'respo.schema/Component
             :args $ [] 'Number
+            :features $ #{} :js-ffi
         'format-week $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn format-week (week)
             case-default week (str week |th) (1 |1st) (2 |2nd) (3 |3rd)
@@ -215,13 +216,36 @@
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.config
           :require $ cumulo-util.core :refer $
+    'app.ffi $ %{} 'FileEntry
+      :defs $ {}
+        'DayjsFactory $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ deftrait DayjsFactory
+            .extend $ :: 'Fn $ {}
+              :args $ [] 'app.ffi/DayjsFactory 'JsObject
+              :return 'JsObject
+          :examples $ []
+          :ffi $ {} (:backend :js) (:kind :external-object)
+          :schema $ :: 'Trait
+        'DayjsValue $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ deftrait DayjsValue
+            .format $ :: 'Fn $ {}
+              :args $ [] 'app.ffi/DayjsValue 'String
+              :return 'String
+            .week $ :: 'Fn $ {}
+              :args $ [] 'app.ffi/DayjsValue
+              :return 'Number
+          :examples $ []
+          :ffi $ {} (:backend :js) (:kind :external-object)
+          :schema $ :: 'Trait
+      :ns $ %{} 'NsEntry (:doc |)
+        :code $ quote $ ns app.ffi
     'app.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defatom *reel
             -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Ref 'Dynamic
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op) (; println |Dispatch: op)
             reset! *reel $ reel-updater updater @*reel op
@@ -229,15 +253,18 @@
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] 'Dynamic
         'main! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn main! () (.!extend dayjs weekOfYear)
+          :code $ quote $ defn main! ()
+            .!extend
+              unsafe-coerce dayjs 'app.ffi/DayjsFactory
+              , weekOfYear
             println "|Running mode:" $ if config/dev? |dev |release
             if ssr? (render-app! realize-ssr!) (render-app! render!)
             add-watch *reel :changes $ fn (r p) (render-app! render!)
             listen-devtools! |a dispatch!
             js/window.addEventListener |beforeunload persist-storage!
             timeout-call 60 persist-storage!
-            timeout-call 1 $ fn (? a)
-              dispatch! $ :: :tick $ js/Date.now
+            timeout-call 1 $ fn () $ dispatch!
+              :: :tick $ js/Date.now
             let
                 raw $ js/localStorage.getItem $ :storage-key config/site
               when (js-present? raw)
@@ -249,18 +276,20 @@
             :args $ []
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def mount-target
+          :code $ quote $ defn mount-target ()
             js/document.querySelector |.app
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn $ {} (:return 'Dynamic)
+            :args $ []
+            :features $ #{} :js-ffi
         'persist-storage! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn persist-storage! (? e)
+          :code $ quote $ defn persist-storage! ()
             js/localStorage.setItem (:storage-key config/site)
               format-cirru-edn $ reel.schema/read-field @*reel :store
-            , nil
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Dynamic
+            :args $ []
             :features $ #{} :js-ffi
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! () (clear-cache!) (remove-watch *reel :changes)
@@ -272,7 +301,9 @@
             :args $ []
             :features $ #{} :js-ffi
         'render-app! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn render-app! (renderer) (renderer mount-target comp-container @*reel dispatch!) nil
+          :code $ quote $ defn render-app! (renderer)
+            renderer (mount-target) comp-container @*reel dispatch!
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ [] 'Fn
@@ -315,7 +346,11 @@
     'app.ssr $ %{} 'FileEntry
       :defs $ {}
         'main! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn main! () (.!extend dayjs weekOfYear) (render-page!)
+          :code $ quote $ defn main! ()
+            .!extend
+              unsafe-coerce dayjs 'app.ffi/DayjsFactory
+              , weekOfYear
+            render-page!
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -334,7 +369,7 @@
                   let
                       s schema/store
                     -> reel-schema/reel (assoc :base s) (assoc :store s)
-                styles $ .join-str @*style-list-in-nodejs $ str &newline &newline
+                styles $ join-str @*style-list-in-nodejs $ str &newline &newline
                 html $ fs/readFileSync p |utf8
                 new-html $ .!replace html "|<div class=\"app\" ></div>" $ str |<style> styles |</style> "|<div class=\"app\" data-ssr=\"true\" >" app-html |</div>
               fs/writeFileSync p new-html
@@ -357,7 +392,9 @@
     'app.types $ %{} 'FileEntry
       :defs $ {}
         'AppData $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct AppData (:key 'Tag) (:name 'String) (:icon 'Dynamic) (:link 'String)
+          :code $ quote $ defstruct AppData (:key 'Tag) (:name 'String)
+            :icon $ :: 'JsNullish 'String
+            :link 'String
           :examples $ []
           :schema $ :: 'StructDef
         'SiteConfig $ %{} 'CodeEntry (:doc |)
@@ -374,7 +411,7 @@
       :defs $ {} $ 'updater
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn updater (store op op-id op-time)
-            tag-match op
+            match op
               (:states cursor s) (update-states store cursor s)
               (:content c) (assoc store :content c)
               (:hydrate-storage d) d
