@@ -3,16 +3,11 @@
   :about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `calcit query` to inspect and `calcit edit`/`calcit tree` to modify. Run `calcit docs agents --contract` before mutations; use `--full` for first orientation or changed contract digest. Manual edits must follow format and schema conventions, then run `calcit edit format`."
   :package |app
   :entries $ {}
-    :default $ {} (:description "|Browser client") (:init-fn 'app.main/main!) (:mode :js)
-      :reload-fn 'app.main/reload!
+    :default $ {} (:description "|Browser client") (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
       :type-slots $ {}
-    :ssr $ {}
-      :description "|Server-side rendering"
-      :init-fn 'app.ssr/main!
-      :mode :js
-      :reload-fn 'app.ssr/reload!
+    :ssr $ {} (:description "|Server-side rendering") (:init-fn 'app.ssr/main!) (:mode :js) (:reload-fn 'app.ssr/reload!)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
       :type-slots $ {}
@@ -32,8 +27,7 @@
                 comp-kits
                 when dev? $ comp-reel (>> states :reel) reel $ {}
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'Dynamic
         'comp-time $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-time (x)
@@ -54,8 +48,7 @@
                 <> $ str (.!format now |HH:mm)
                   {} (:font-size 100) (:font-weight 100) (:line-height |120px)
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'Number
             :features $ #{} :js-ffi
         'format-week $ %{} 'CodeEntry (:doc |)
@@ -91,17 +84,14 @@
                 if (js-present? icon)
                   img $ {}
                     :src $ str |https://cdn.tiye.me/logo/ icon
-                    :style $ {} (:width 80) (:height 80)
-                      :backface-visibility :hidden
-                      :image-rendering |-webkit-optimize-contrast
+                    :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering |-webkit-optimize-contrast)
                   div
                     {} $ :class-name css-name-icon
                     <> $ &str:slice app.:name 0 1
                 <> app.:name $ {} (:line-height |40px)
                   :color $ hsl 0 0 40
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'app.types/AppData
         'comp-kits $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-kits ()
@@ -116,20 +106,12 @@
                 -> quick-apps $ map $ fn (app)
                   [] app.:key $ comp-app app
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
         'css-app $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle css-app
             {}
-              |$0 $ {}
-                :transition-duration |240ms
-                :width 120
-                :margin "|0 8px 8px 0"
-                :border-radius |32px
-                :text-decoration :none
-                :padding "|18px 0 0 0"
-                :line-height |80px
+              |$0 $ {} (:transition-duration |240ms) (:width 120) (:margin "|0 8px 8px 0") (:border-radius |32px) (:text-decoration :none) (:padding "|18px 0 0 0") (:line-height |80px)
               |$0:hover $ {} $ :background-color (hsl 0 0 95)
           :examples $ []
           :schema $ :: 'Map
@@ -145,31 +127,17 @@
         'quick-apps $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def quick-apps
             []
-              %{} app.types/AppData (:name "|Tiye Index") (:key :edn-formatter) (:icon nil)
-                :link |https://fx.nioint.com/pages/tiye-index/
-              %{} app.types/AppData (:name "|EDN Formatter") (:key :edn-formatter)
-                :icon |edn-formatter.png
-                :link |https://repo.tiye.me/mvc-works/edn-formatter/
-              %{} app.types/AppData (:name |Copyboard) (:key :copyboard) (:icon |copyboard.png)
-                :link |http://cp.topix.im
-              %{} app.types/AppData (:name "|Diff view") (:key :diffview) (:icon |diffview.png)
-                :link |http://r.tiye.me/Memkits/diffview/
-              %{} app.types/AppData (:name |Timegrass) (:key :timegrass) (:icon |timegrass.png)
-                :link |http://timegrass.topix.im/
-              %{} app.types/AppData (:name |Woodenlist) (:key :woodenlist) (:icon |woodenlist.png)
-                :link |http://wood.topix.im
-              %{} app.types/AppData (:name |Manuscript) (:key :manuscript) (:icon |manuscript.png)
-                :link |http://r.tiye.me/Memkits/manuscript/
-              %{} app.types/AppData (:name "|Markdown Editor") (:key :markdown-editor)
-                :icon |markdown-editor.png
-                :link |http://r.tiye.me/Memkits/markdown-editor/
-              %{} app.types/AppData (:name "|Mermaid Clean") (:key :mermaid-clean)
-                :icon |mermaid-clean.png
-                :link |http://r.tiye.me/worktools/mermaid-clean/
-              %{} app.types/AppData (:name "|Sedum Slide") (:key :sedum-slide) (:icon |sedum-icon.png)
-                :link |http://r.tiye.me/Memkits/sedum-slide/
-              %{} app.types/AppData (:name "|Calcit Editor") (:key :calcit) (:icon |cirru.png)
-                :link |http://calcit-editor.cirru.org
+              %{} app.types/AppData (:name "|Tiye Index") (:key :edn-formatter) (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
+              %{} app.types/AppData (:name "|EDN Formatter") (:key :edn-formatter) (:icon |edn-formatter.png) (:link |https://repo.tiye.me/mvc-works/edn-formatter/)
+              %{} app.types/AppData (:name |Copyboard) (:key :copyboard) (:icon |copyboard.png) (:link |http://cp.topix.im)
+              %{} app.types/AppData (:name "|Diff view") (:key :diffview) (:icon |diffview.png) (:link |http://r.tiye.me/Memkits/diffview/)
+              %{} app.types/AppData (:name |Timegrass) (:key :timegrass) (:icon |timegrass.png) (:link |http://timegrass.topix.im/)
+              %{} app.types/AppData (:name |Woodenlist) (:key :woodenlist) (:icon |woodenlist.png) (:link |http://wood.topix.im)
+              %{} app.types/AppData (:name |Manuscript) (:key :manuscript) (:icon |manuscript.png) (:link |http://r.tiye.me/Memkits/manuscript/)
+              %{} app.types/AppData (:name "|Markdown Editor") (:key :markdown-editor) (:icon |markdown-editor.png) (:link |http://r.tiye.me/Memkits/markdown-editor/)
+              %{} app.types/AppData (:name "|Mermaid Clean") (:key :mermaid-clean) (:icon |mermaid-clean.png) (:link |http://r.tiye.me/worktools/mermaid-clean/)
+              %{} app.types/AppData (:name "|Sedum Slide") (:key :sedum-slide) (:icon |sedum-icon.png) (:link |http://r.tiye.me/Memkits/sedum-slide/)
+              %{} app.types/AppData (:name "|Calcit Editor") (:key :calcit) (:icon |cirru.png) (:link |http://calcit-editor.cirru.org)
           :examples $ []
           :schema $ :: 'List 'app.types/AppData
       :ns $ %{} 'NsEntry (:doc |)
@@ -190,8 +158,7 @@
             cond
                 exists? js/window
                 , false
-              (exists? js/process)
-                = |true js/process.env.cdn
+              (exists? js/process) (= |true js/process.env.cdn)
               :else false
           :examples $ []
           :schema $ :: 'Bool
@@ -202,15 +169,7 @@
           :schema $ :: 'Bool
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
-            %{} app.types/SiteConfig
-              :dev-ui |http://localhost:8100/main.css
-              :release-ui |http://cdn.tiye.me/favored-fonts/main.css
-              :local-ui |/cdn.tiye.me/favored-fonts/main.css
-              :cdn-url |http://cdn.tiye.me/neu-page/
-              :title "|Neu Page"
-              :icon |http://cdn.tiye.me/logo/tiye.jpg
-              :local-icon |/neu.png
-              :storage-key |neu-page
+            %{} app.types/SiteConfig (:dev-ui |http://localhost:8100/main.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main.css) (:local-ui |/cdn.tiye.me/favored-fonts/main.css) (:cdn-url |http://cdn.tiye.me/neu-page/) (:title "|Neu Page") (:icon |http://cdn.tiye.me/logo/tiye.jpg) (:local-icon |/neu.png) (:storage-key |neu-page)
           :examples $ []
           :schema $ :: 'app.types/SiteConfig
       :ns $ %{} 'NsEntry (:doc |)
@@ -254,9 +213,7 @@
             :args $ [] 'Dynamic
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
-            .!extend
-              unsafe-coerce dayjs 'app.ffi/DayjsFactory
-              , weekOfYear
+            .!extend (unsafe-coerce dayjs 'app.ffi/DayjsFactory) weekOfYear
             println "|Running mode:" $ if config/dev? |dev |release
             if ssr? (render-app! realize-ssr!) (render-app! render!)
             add-watch *reel :changes $ fn (r p) (render-app! render!)
@@ -276,8 +233,7 @@
             :args $ []
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn mount-target ()
-            js/document.querySelector |.app
+          :code $ quote $ defn mount-target () (js/document.querySelector |.app)
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Dynamic)
             :args $ []
@@ -329,8 +285,7 @@
       :defs $ {}
         'app $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def app
-            %{} app.types/AppData (:key :tiye) (:name "|Tiye Index") (:icon nil)
-              :link |https://fx.nioint.com/pages/tiye-index/
+            %{} app.types/AppData (:key :tiye) (:name "|Tiye Index") (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
           :examples $ []
           :schema $ :: 'app.types/AppData
         'store $ %{} 'CodeEntry (:doc |)
@@ -347,9 +302,7 @@
       :defs $ {}
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
-            .!extend
-              unsafe-coerce dayjs 'app.ffi/DayjsFactory
-              , weekOfYear
+            .!extend (unsafe-coerce dayjs 'app.ffi/DayjsFactory) weekOfYear
             render-page!
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
@@ -418,8 +371,7 @@
               (:tick t) (assoc store :time t)
               _ $ do (eprintln "|unknown op:" op) store
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'app.types/StoreData
+          :schema $ :: 'Fn $ {} (:return 'app.types/StoreData)
             :args $ [] 'app.types/StoreData 'Dynamic 'String 'Number
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
