@@ -3,13 +3,13 @@
   :about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `calcit query` to inspect and `calcit edit`/`calcit tree` to modify. Run `calcit docs agents --contract` before mutations; use `--full` for first orientation or changed contract digest. Manual edits must follow format and schema conventions, then run `calcit edit format`."
   :package |app
   :entries $ {}
-    :default $ {} (:description "|Browser client") (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!)
+    :default $ {} (:description "|Browser client") (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
-      :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
+      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {}
-    :ssr $ {} (:description "|Server-side rendering") (:init-fn 'app.ssr/main!) (:mode :js) (:reload-fn 'app.ssr/reload!)
+    :ssr $ {} (:description "|Server-side rendering") (:init-fn 'app.ssr/main!) (:mode :js) (:reload-fn 'app.ssr/reload!) (:target :node)
       :feature-policy $ {}
-      :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
+      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {}
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
@@ -29,6 +29,19 @@
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'Dynamic
+        'comp-ssr $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-ssr (reel)
+            let
+                store $ reel.schema/read-field reel :store
+              div
+                {}
+                  :class-name $ str-spaced css/global css/fullscreen css/center
+                  :style $ {} $ :background-color "|rgb(231,234,237)"
+                comp-time $ reel.schema/read-field store :time
+                comp-kits
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ [] $ :: 'Map 'Tag 'Dynamic
         'comp-time $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-time (x)
             let
@@ -38,14 +51,16 @@
                   {} (:font-family ui/font-fancy)
                     :color $ hsl 0 0 70
                     :align-items :flex-end
-                <> $ str (.!format now |dddd)
+                <>
+                  str $ .!format now |dddd
                   {} (:font-size 40) (:font-weight 300) (:margin-bottom 8)
                 =< 8 nil
                 <>
                   format-week $ unsafe-coerce (.!week now) 'Number
                   {} $ :margin-bottom 26
                 =< 24 nil
-                <> $ str (.!format now |HH:mm)
+                <>
+                  str $ .!format now |HH:mm
                   {} (:font-size 100) (:font-weight 100) (:line-height |120px)
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
@@ -66,7 +81,6 @@
             respo.core :refer $ defcomp >> <> div button textarea span
             respo.comp.space :refer $ =<
             reel.comp.reel :refer $ comp-reel
-            respo-md.comp.md :refer $ comp-md
             app.config :refer $ dev?
             app.comp.kits :refer $ comp-kits
             |dayjs :default dayjs
@@ -127,7 +141,7 @@
         'quick-apps $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def quick-apps
             []
-              %{} app.types/AppData (:name "|Tiye Index") (:key :edn-formatter) (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
+              %{} app.types/AppData (:name "|Tiye Index") (:key :tiye-index) (:icon nil) (:link |https://fx.nioint.com/pages/tiye-index/)
               %{} app.types/AppData (:name "|EDN Formatter") (:key :edn-formatter) (:icon |edn-formatter.png) (:link |https://repo.tiye.me/mvc-works/edn-formatter/)
               %{} app.types/AppData (:name |Copyboard) (:key :copyboard) (:icon |copyboard.png) (:link |http://cp.topix.im)
               %{} app.types/AppData (:name "|Diff view") (:key :diffview) (:icon |diffview.png) (:link |http://r.tiye.me/Memkits/diffview/)
@@ -149,7 +163,6 @@
             respo.css :refer $ defstyle
             respo.core :refer $ defcomp list-> <> div button textarea span img a
             respo.comp.space :refer $ =<
-            respo-md.comp.md :refer $ comp-md
             app.config :refer $ dev?
     'app.config $ %{} 'FileEntry
       :defs $ {}
@@ -218,7 +231,7 @@
             if ssr? (render-app! realize-ssr!) (render-app! render!)
             add-watch *reel :changes $ fn (r p) (render-app! render!)
             listen-devtools! |a dispatch!
-            js/window.addEventListener |beforeunload persist-storage!
+            js/window.addEventListener |beforeunload $ fn (event) (persist-storage!)
             timeout-call 60 persist-storage!
             timeout-call 1 $ fn () $ dispatch!
               :: :tick $ js/Date.now
@@ -258,11 +271,15 @@
             :features $ #{} :js-ffi
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! (renderer)
-            renderer (mount-target) comp-container @*reel dispatch!
+            renderer (mount-target) (comp-container @*reel) dispatch!
             , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Fn
+            :args $ [] $ :: 'Fn
+              {} (:return 'Unit)
+                :args $ [] 'Dynamic 'respo.schema/Component $ :: 'Fn
+                  {} (:return 'Unit)
+                    :args $ [] 'Dynamic
         'ssr? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def ssr?
             js-present? $ js/document.querySelector |div[data-ssr]
@@ -318,7 +335,7 @@
           :code $ quote $ defn render-page! ()
             let
                 p |dist/index.html
-                app-html $ make-string $ comp-container
+                app-html $ make-string $ comp-ssr
                   let
                       s schema/store
                     -> reel-schema/reel (assoc :base s) (assoc :store s)
@@ -334,7 +351,7 @@
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.ssr
           :require
-            app.comp.container :refer $ comp-container
+            app.comp.container :refer $ comp-ssr
             |fs :as fs
             respo.render.html :refer $ make-string
             reel.schema :as reel-schema
