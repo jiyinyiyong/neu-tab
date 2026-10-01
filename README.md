@@ -15,10 +15,10 @@ caps --strict --ci
 yarn install --immutable
 calcit calcit.cirru --check-only
 calcit calcit.cirru --entry ssr --check-only
-VITE_BASE_URL=https://cos-sh.tiye.me/tiye/neu-tab/pr/ yarn build
+VITE_BASE_URL=https://cos-sh.tiye.me/jiyinyiyong/neu-tab/pr/ yarn build
 yarn ssr
 node --test scripts/*.test.mjs
-VITE_BASE_URL=https://cos-sh.tiye.me/tiye/neu-tab/pr/ node scripts/check-cdn-path.mjs
+VITE_BASE_URL=https://cos-sh.tiye.me/jiyinyiyong/neu-tab/pr/ node scripts/check-cdn-path.mjs
 ```
 
 `yarn build` compiles the browser entry; `yarn ssr` compiles the Node entry
@@ -28,11 +28,13 @@ development tools; the SSR entry renders the same page without browser-only
 development tools.
 
 CI uploads only the tested frontend `dist/` artifact to COS. Production uses
-`https://cos-sh.tiye.me/tiye/neu-tab/`, and PR previews use its `/pr/` path.
+`https://cos-sh.tiye.me/jiyinyiyong/neu-tab/`, and PR previews use its `/pr/` path.
+The repository moved from `tiye/neu-tab` to `jiyinyiyong/neu-tab`; CI derives
+the prefix from `github.repository` rather than hardcoding either name.
 Public verification is provided by `cos-upload-action` v1.1.1, not a copied
 network verification script. Upload jobs queue and reject superseded branch
 commits before deployment. The original production server destination remains
-`rsync-user@tiye.me:/web-assets/repo/tiye/neu-tab`; deployment to that server
+`rsync-user@tiye.me:/web-assets/repo/${{ github.repository }}`; deployment to that server
 only runs on main pushes. Existing externally hosted fonts, logos and all
 11 shortcut links are preserved.
 

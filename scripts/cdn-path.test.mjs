@@ -2,13 +2,13 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { checkCdnPath } from './check-cdn-path.mjs';
 
-const base = 'https://cos-sh.tiye.me/tiye/neu-tab/pr/';
+const base = 'https://cos-sh.tiye.me/jiyinyiyong/neu-tab/pr/';
 const html = `<script src="${base}assets/main.js"></script><link href="${base}assets/main.css">`;
 test('accepts exact preview prefix and separately hosted font', () => {
   checkCdnPath(`${html}<link href="https://cdn.tiye.me/favored-fonts/main-fonts.css">`, base);
 });
 test('rejects relative or production assets mixed into preview HTML', () => {
-  for (const url of ['./assets/extra.js', 'https://cos-sh.tiye.me/tiye/neu-tab/assets/extra.js']) {
+  for (const url of ['./assets/extra.js', 'https://cos-sh.tiye.me/jiyinyiyong/neu-tab/assets/extra.js']) {
     assert.throws(() => checkCdnPath(`${html}<script src="${url}"></script>`, base));
   }
 });
