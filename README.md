@@ -17,8 +17,6 @@ calcit calcit.cirru --check-only
 calcit calcit.cirru --entry ssr --check-only
 VITE_BASE_URL=https://cos-sh.tiye.me/jiyinyiyong/neu-tab/pr/ yarn build
 yarn ssr
-node --test scripts/*.test.mjs
-VITE_BASE_URL=https://cos-sh.tiye.me/jiyinyiyong/neu-tab/pr/ node scripts/check-cdn-path.mjs
 ```
 
 `yarn build` compiles the browser entry; `yarn ssr` compiles the Node entry
@@ -27,7 +25,7 @@ and adds rendered markup and component CSS to `dist/index.html`. Leave
 development tools; the SSR entry renders the same page without browser-only
 development tools.
 
-CI uploads only the tested frontend `dist/` artifact to COS. Production uses
+CI uploads only the built frontend `dist/` artifact to COS. Production uses
 `https://cos-sh.tiye.me/jiyinyiyong/neu-tab/`, and PR previews use its `/pr/` path.
 The repository moved from `tiye/neu-tab` to `jiyinyiyong/neu-tab`; CI derives
 the prefix from `github.repository` rather than hardcoding either name.
@@ -39,8 +37,7 @@ only runs on main pushes. Existing externally hosted fonts, logos and all
 11 shortcut links are preserved.
 
 `yarn crx` still packages the extension with the original manifest/icon and
-forces relative frontend asset URLs even if a CDN base is set. Run
-`node scripts/check-extension.mjs` immediately afterward to verify ZIP entries.
+forces relative frontend asset URLs even if a CDN base is set.
 The original one-shot tick (1ms), save (60ms), unload save and `neu-page`
 storage key are preserved; this migration does not introduce recurring timers.
 

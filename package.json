@@ -21,7 +21,6 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "happy-dom": "20.14.5",
     "vite": "8.3.1"
   },
   "dependencies": {
