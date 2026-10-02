@@ -4,6 +4,9 @@
   "description": "ClojureScript workflow using Calcit Editor",
   "main": "index.js",
   "scripts": {
+    "compile": "calcit",
+    "watch": "calcit -w",
+    "dev": "yarn compile && vite",
     "watch-ssr": "calcit calcit.cirru --entry ssr --emit-path ssr-out/ --watch",
     "compile-ssr": "calcit calcit.cirru --entry ssr --emit-path ssr-out/",
     "ssr": "yarn compile-ssr && node ssr.mjs",
@@ -11,7 +14,7 @@
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
     "get2": "yarn get-fonts && yarn get-logos",
     "cp": "cp entry/manifest.json dist && cp entry/neu.png dist",
-    "build": "calcit calcit.cirru js && vite build",
+    "build": "yarn compile && vite build",
     "crx": "VITE_BASE_URL=./ yarn build && yarn cp && zip -r neu-tab.zip dist/"
   },
   "repository": {
