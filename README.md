@@ -25,11 +25,15 @@ and adds rendered markup and component CSS to `dist/index.html`. Leave
 development tools; the SSR entry renders the same page without browser-only
 development tools.
 
+`yarn dev` compiles once before starting Vite; edit Calcit with `yarn watch`
+in another terminal, without concurrently. CI keeps strict browser/SSR entry
+checks and public contracts rather than repeated migration diagnostic reports.
+
 CI uploads only the built frontend `dist/` artifact to COS. Production uses
 `https://cos-sh.tiye.me/jiyinyiyong/neu-tab/`, and PR previews use its `/pr/` path.
 The repository moved from `tiye/neu-tab` to `jiyinyiyong/neu-tab`; CI derives
 the prefix from `github.repository` rather than hardcoding either name.
-Public verification is provided by `cos-upload-action` v1.1.1, not a copied
+Public verification is provided by `cos-upload-action` v1.2.0, not a copied
 network verification script. Upload jobs queue and reject superseded branch
 commits before deployment. The original production server destination remains
 `rsync-user@tiye.me:/web-assets/repo/${{ github.repository }}`; deployment to that server

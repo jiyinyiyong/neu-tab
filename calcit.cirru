@@ -166,15 +166,6 @@
             app.config :refer $ dev?
     'app.config $ %{} 'FileEntry
       :defs $ {}
-        'cdn? $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def cdn?
-            cond
-                exists? js/window
-                , false
-              (exists? js/process) (= |true js/process.env.cdn)
-              :else false
-          :examples $ []
-          :schema $ :: 'Bool
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def dev?
             = |dev $ option:unwrap-or (get-env |mode) |release
