@@ -13,7 +13,8 @@ Neu Page
 
 CLI 与 runtime 配对使用完整的 **0.30.1-alpha.5**；正式 0.30.1 配对产物仍按上游说明暂停发布，
 本分支不冒称正式版。Respo / UI / Reel / js-ffi 改用已发布正式依赖。
-Reel 状态与应用操作使用具体类型，浏览器 DOM/存储采用模块提供的受检接口；
+Reel 状态与应用操作使用具体类型，快捷入口的可选图标使用 Option（不混用宿主 JsNullish），
+浏览器 DOM/存储采用模块提供的受检接口；
 Day.js 日期对象受检，唯有默认导出（带 `extend` 方法的函数）在 `app.ffi/init-dayjs!`
 保留一处外部合同断言，因当前 `js-cast` 不接受可调用函数对象。它没有伪造普通业务类型，
 跟踪 [上游 callable host 支持](https://github.com/calcit-lang/calcit/issues/2153)。

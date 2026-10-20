@@ -96,13 +96,15 @@
                   :class-name $ str-spaced css/center css-app
                   :target |_self
                   :href $ app.:link
-                if (js-present? icon)
-                  img $ {}
-                    :src $ str |https://cdn.tiye.me/logo/ icon
-                    :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering |-webkit-optimize-contrast)
-                  div
-                    {} $ :class-name css-name-icon
-                    <> $ &str:slice app.:name 0 1
+                match icon
+                  (:some icon-url)
+                    img $ {}
+                      :src $ str |https://cdn.tiye.me/logo/ icon-url
+                      :style $ {} (:width 80) (:height 80) (:backface-visibility :hidden) (:image-rendering |-webkit-optimize-contrast)
+                  (:none)
+                    div
+                      {} $ :class-name css-name-icon
+                      <> $ &str:slice app.:name 0 1
                 <> app.:name $ {} (:line-height |40px)
                   :color $ hsl 0 0 40
           :examples $ []
@@ -142,17 +144,17 @@
         'quick-apps $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def quick-apps
             []
-              app.types/AppData :name "|Tiye Index" :key :tiye-index :icon nil :link |https://fx.nioint.com/pages/tiye-index/
-              app.types/AppData :name "|EDN Formatter" :key :edn-formatter :icon |edn-formatter.png :link |https://repo.tiye.me/mvc-works/edn-formatter/
-              app.types/AppData :name |Copyboard :key :copyboard :icon |copyboard.png :link |http://cp.topix.im
-              app.types/AppData :name "|Diff view" :key :diffview :icon |diffview.png :link |http://r.tiye.me/Memkits/diffview/
-              app.types/AppData :name |Timegrass :key :timegrass :icon |timegrass.png :link |http://timegrass.topix.im/
-              app.types/AppData :name |Woodenlist :key :woodenlist :icon |woodenlist.png :link |http://wood.topix.im
-              app.types/AppData :name |Manuscript :key :manuscript :icon |manuscript.png :link |http://r.tiye.me/Memkits/manuscript/
-              app.types/AppData :name "|Markdown Editor" :key :markdown-editor :icon |markdown-editor.png :link |http://r.tiye.me/Memkits/markdown-editor/
-              app.types/AppData :name "|Mermaid Clean" :key :mermaid-clean :icon |mermaid-clean.png :link |http://r.tiye.me/worktools/mermaid-clean/
-              app.types/AppData :name "|Sedum Slide" :key :sedum-slide :icon |sedum-icon.png :link |http://r.tiye.me/Memkits/sedum-slide/
-              app.types/AppData :name "|Calcit Editor" :key :calcit :icon |cirru.png :link |http://calcit-editor.cirru.org
+              app.types/AppData :name "|Tiye Index" :key :tiye-index :icon (Option :none) :link |https://fx.nioint.com/pages/tiye-index/
+              app.types/AppData :name "|EDN Formatter" :key :edn-formatter :icon (Option :some |edn-formatter.png) :link |https://repo.tiye.me/mvc-works/edn-formatter/
+              app.types/AppData :name |Copyboard :key :copyboard :icon (Option :some |copyboard.png) :link |http://cp.topix.im
+              app.types/AppData :name "|Diff view" :key :diffview :icon (Option :some |diffview.png) :link |http://r.tiye.me/Memkits/diffview/
+              app.types/AppData :name |Timegrass :key :timegrass :icon (Option :some |timegrass.png) :link |http://timegrass.topix.im/
+              app.types/AppData :name |Woodenlist :key :woodenlist :icon (Option :some |woodenlist.png) :link |http://wood.topix.im
+              app.types/AppData :name |Manuscript :key :manuscript :icon (Option :some |manuscript.png) :link |http://r.tiye.me/Memkits/manuscript/
+              app.types/AppData :name "|Markdown Editor" :key :markdown-editor :icon (Option :some |markdown-editor.png) :link |http://r.tiye.me/Memkits/markdown-editor/
+              app.types/AppData :name "|Mermaid Clean" :key :mermaid-clean :icon (Option :some |mermaid-clean.png) :link |http://r.tiye.me/worktools/mermaid-clean/
+              app.types/AppData :name "|Sedum Slide" :key :sedum-slide :icon (Option :some |sedum-icon.png) :link |http://r.tiye.me/Memkits/sedum-slide/
+              app.types/AppData :name "|Calcit Editor" :key :calcit :icon (Option :some |cirru.png) :link |http://calcit-editor.cirru.org
           :examples $ []
           :schema $ :: 'List 'app.types/AppData
       :ns $ %{} 'NsEntry (:doc |)
@@ -315,7 +317,7 @@
       :defs $ {}
         'app $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def app
-            app.types/AppData :key :tiye :name "|Tiye Index" :icon nil :link |https://fx.nioint.com/pages/tiye-index/
+            app.types/AppData :key :tiye :name "|Tiye Index" :icon (Option :none) :link |https://fx.nioint.com/pages/tiye-index/
           :examples $ []
           :schema $ :: 'app.types/AppData
         'decode-op $ %{} 'CodeEntry (:doc |)
@@ -403,7 +405,7 @@
       :defs $ {}
         'AppData $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct AppData (:key 'Tag) (:name 'String)
-            :icon $ :: 'JsNullish 'String
+            :icon $ :: 'Option 'String
             :link 'String
           :examples $ []
           :schema $ :: 'StructDef
