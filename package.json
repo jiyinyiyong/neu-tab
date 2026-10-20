@@ -4,11 +4,11 @@
   "description": "ClojureScript workflow using Calcit Editor",
   "main": "index.js",
   "scripts": {
-    "compile": "calcit",
+    "compile": "calcit js",
     "watch": "calcit -w",
     "dev": "yarn compile && vite",
-    "watch-ssr": "calcit calcit.cirru --entry ssr --emit-path ssr-out/ --watch",
-    "compile-ssr": "calcit calcit.cirru --entry ssr --emit-path ssr-out/",
+    "watch-ssr": "calcit --entry ssr --emit-path ssr-out/ -w js",
+    "compile-ssr": "calcit --entry ssr --emit-path ssr-out/ js",
     "ssr": "yarn compile-ssr && node ssr.mjs",
     "get-fonts": "cd dist && wget --recursive http://cdn.tiye.me/favored-fonts/main-fonts.css -q --show-progress",
     "get-logos": "cd dist && wget --recursive wget -r http://cdn.tiye.me/logo/ --no-parent -q --show-progress",
@@ -27,7 +27,7 @@
     "vite": "8.3.1"
   },
   "dependencies": {
-    "@calcit/procs": "0.27.0",
+    "@calcit/procs": "0.30.1-alpha.5",
     "dayjs": "^1.11.13"
   },
   "packageManager": "yarn@4.18.0"
