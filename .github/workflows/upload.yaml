@@ -57,16 +57,17 @@ jobs:
         git diff --exit-code -- calcit.cirru
         calcit --check-only --ns 'app.$meta' --ns app.comp.container --ns app.comp.kits --ns app.config --ns app.ffi --ns app.main --ns app.schema --ns app.types --ns app.updater --summary-only
         calcit --entry ssr --check-only --ns app.ssr --summary-only
-        calcit fix --workflow strict --verify
+        calcit fix --workflow strict --verify --format json | jq -e '.data.workflow.status == "passed" and .diagnostics == []'
 
     - name: Select frontend CDN path
       id: asset-path
       env:
         CDN_ORIGIN: https://cos-sh.tiye.me
+        PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
         set -euo pipefail
         if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-          asset_prefix="${GITHUB_REPOSITORY}/pr/"
+          asset_prefix="${GITHUB_REPOSITORY}/pr/${PR_NUMBER}/${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}/"
         else
           asset_prefix="${GITHUB_REPOSITORY}/"
         fi
@@ -93,7 +94,7 @@ jobs:
     needs: test
     runs-on: ubuntu-24.04
     concurrency:
-      group: cos-upload-${{ github.repository }}-${{ github.event_name == 'pull_request' && 'pr' || 'production' }}
+      group: cos-upload-${{ github.repository }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'production' }}
       cancel-in-progress: false
       queue: max
     steps:
