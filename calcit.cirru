@@ -239,12 +239,13 @@
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (ffi/init-dayjs!)
             println |Running-mode: $ if config/dev? |dev |release
+            when (ssr?) (render-app! realize-ssr!)
             match
               browser/storage-get $ :storage-key config/site
               (:some raw)
                 dispatch! $ :: :hydrate-storage $ parse-cirru-edn raw
               (:none) &unit
-            if (ssr?) (render-app! realize-ssr!) (render-app! render!)
+            render-app! render!
             add-watch! *reel :changes $ fn (r p) (render-app! render!)
             listen-devtools! |a dispatch!
             browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
