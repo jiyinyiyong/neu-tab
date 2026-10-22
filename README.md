@@ -8,11 +8,13 @@ Neu Page
 
 快捷入口、外部图标/字体、时钟和扩展打包方式不变。仍使用 `neu-page` 本地存储键，
 兼容原 Map 和 Struct 存档；恢复时检查页面状态字段，损坏数据会明确报错。
-原自动保存行为仍保留，异常存档应先备份，不把字段校验当作存档恢复或防覆盖机制。
+先恢复存档，再渲染和注册保存回调；恢复失败不再留下会用初始值覆盖原存档的保存回调。
+异常存档应先备份并修复，不要清空浏览器数据，不把字段校验当作自动恢复机制。
 原一次性 tick（1ms）、保存（60ms）和离页保存保持原行为，不改为循环计时器。
 
-CLI 与 runtime 配对使用完整的 **0.30.1-alpha.5**；正式 0.30.1 配对产物仍按上游说明暂停发布，
-本分支不冒称正式版。Respo / UI / Reel / js-ffi 改用已发布正式依赖。
+CLI 与 runtime 配对使用精确正式 **0.30.1**；Respo 0.16.124、UI 0.8.0、
+Reel 0.6.41、js-ffi 0.2.5 均使用已发布正式依赖。请重启开发服务并完整刷新；
+UI 0.8 的基础样式可能改变外观。
 Reel 状态与应用操作使用具体类型，快捷入口的可选图标使用 Option（不混用宿主 JsNullish），
 浏览器 DOM/存储采用模块提供的受检接口；
 Day.js 日期对象受检，唯有默认导出（带 `extend` 方法的函数）在 `app.ffi/init-dayjs!`
@@ -25,7 +27,7 @@ CI 保留 Caps 严格解析、浏览器/SSR 构建、原部署门禁，替换已
 
 ### Development and deployment
 
-Use the paired Calcit/procs 0.30.1-alpha.5, Node.js 24 and Yarn 4.18.0. Source and dependency files
+Use the paired formal Calcit/procs 0.30.1, Node.js 24 and Yarn 4.18.0. Source and dependency files
 are `calcit.cirru` and `deps.cirru`; do not restore `compact.cirru` or
 `package.cirru`.
 
@@ -49,7 +51,8 @@ in another terminal, without concurrently. CI keeps strict browser/SSR entry
 checks and public contracts rather than repeated migration diagnostic reports.
 
 CI uploads only the built frontend `dist/` artifact to COS. Production uses
-`https://cos-sh.tiye.me/jiyinyiyong/neu-tab/`, and PR previews use its `/pr/` path.
+`https://cos-sh.tiye.me/jiyinyiyong/neu-tab/`, and PR previews use independent
+`/pr/<number>/<run>/<attempt>/` paths instead of sharing one `/pr/` directory.
 The repository moved from `tiye/neu-tab` to `jiyinyiyong/neu-tab`; CI derives
 the prefix from `github.repository` rather than hardcoding either name.
 Public verification is provided by `cos-upload-action` v1.2.0, not a copied
