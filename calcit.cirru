@@ -6,16 +6,16 @@
     :default $ {} (:description "|Browser client") (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op 'app.types/DispatchOp
+      :type-slots $ {} $ :dispatch-op 'app.types/Op
     :ssr $ {} (:description "|Server-side rendering") (:init-fn 'app.ssr/main!) (:mode :js) (:reload-fn 'app.ssr/reload!) (:target :node)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op 'app.types/DispatchOp
+      :type-slots $ {} $ :dispatch-op 'app.types/Op
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
         'comp-container $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defcomp comp-container (reel)
+          :code $ quote $ defcomp comp-container (reel on-control!)
             let
                 store $ :store reel
                 states $ :states store
@@ -26,10 +26,12 @@
                 comp-time $ :time store
                 comp-kits
                 if dev?
-                  Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                  Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control!
                   Option :none
           :examples $ []
-          :schema $ quote $ Fn (reel.typed/State app.types/Op app.types/StoreData) (-> respo.schema/Component)
+          :schema $ quote $ Fn (reel.typed/State app.types/Op app.types/StoreData)
+            Fn reel.typed/Control $ -> Unit
+            -> respo.schema/Component
         'comp-ssr $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-ssr (reel)
             let
@@ -210,7 +212,11 @@
           :examples $ []
           :schema $ quote $ Ref (reel.typed/State app.types/Op app.types/StoreData)
         'dispatch! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn dispatch! (op)
+          :code $ quote $ defn dispatch! (op) (dispatch-resolved! op)
+          :examples $ []
+          :schema $ quote $ Fn app.types/Op (-> Unit)
+        'dispatch-resolved! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn dispatch-resolved! (op)
             reset! *reel $ match op
               (reel.typed/Control control) (typed/apply-control updater @*reel control)
               (app.types/Op action)
@@ -219,26 +225,19 @@
             , &unit
           :examples $ []
           :schema $ quote $ Fn app.types/ResolvedOp (-> Unit)
-        'dispatch-event! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn dispatch-event! (event)
-            match (typed/decode-control event)
-              (:some control) (dispatch! control)
-              (:none)
-                dispatch! $ schema/decode-op event
-          :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> Unit) (:open :decode)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (ffi/init-dayjs!)
             println |Running-mode: $ if config/dev? |dev |release
-            when (ssr?) (render-app! realize-ssr!)
+            when (ssr?)
+              realize-ssr! (mount-target) (comp-ssr @*reel) dispatch!
             match
               browser/storage-get $ :storage-key config/site
               (:some raw)
                 dispatch! $ app.types/Op :hydrate-storage $ schema/decode-store (parse-cirru-edn raw)
               (:none) &unit
-            render-app! render!
-            add-watch! *reel :changes $ fn (r p) (render-app! render!)
-            listen-devtools! |a dispatch-event!
+            render-app!
+            add-watch! *reel :changes $ fn (r p) (render-app!)
+            listen-devtools! |a on-control!
             browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
             timeout-call 60 persist-storage!
             timeout-call 1 $ fn () $ dispatch!
@@ -254,6 +253,10 @@
               (:none) (raise |Missing-app-mount-element)
           :examples $ []
           :schema $ quote $ Fn (-> respo.dom/DomElement)
+        'on-control! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn on-control! (control) (dispatch-resolved! control)
+          :examples $ []
+          :schema $ quote $ Fn reel.typed/Control (-> Unit)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             browser/storage-set! (:storage-key config/site)
@@ -262,21 +265,16 @@
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! () (clear-cache!) (remove-watch! *reel :changes)
-            add-watch! *reel :changes $ fn (r p) (render-app! render!)
+            add-watch! *reel :changes $ fn (r p) (render-app!)
             reset! *reel $ typed/refresh updater @*reel schema/store
             println |Code-updated.
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'render-app! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn render-app! (renderer)
-            renderer (mount-target) (comp-container @*reel) dispatch-event!
-            , &unit
+          :code $ quote $ defn render-app! ()
+            with-memo-frame $ fn () $ render! (mount-target) (comp-container @*reel on-control!) dispatch!
           :examples $ []
-          :schema $ quote $ Fn
-            Fn respo.dom/DomElement respo.schema/Component
-              Fn AnyEnum $ -> Unit
-              -> Unit
-            -> Unit
+          :schema $ quote $ Fn (-> Unit)
         'ssr? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn ssr? ()
             .some? $ dom/query-selector |div[data-ssr]
@@ -286,7 +284,7 @@
         :code $ quote $ ns app.main
           :require
             respo.core :refer $ render! clear-cache! realize-ssr!
-            app.comp.container :refer $ comp-container
+            app.comp.container :refer $ comp-container comp-ssr
             app.updater :refer $ updater
             app.schema :as schema
             reel.util :refer $ listen-devtools!
@@ -296,6 +294,7 @@
             js-ffi.browser :as browser
             js-ffi.shared :as shared
             app.ffi :as ffi
+            respo.memo :refer $ with-memo-frame
     'app.schema $ %{} 'FileEntry
       :defs $ {}
         'app $ %{} 'CodeEntry (:doc |)
@@ -303,22 +302,6 @@
             app.types/AppData :key :tiye :name "|Tiye Index" :icon (Option :none) :link |https://fx.nioint.com/pages/tiye-index/
           :examples $ []
           :schema $ quote app.types/AppData
-        'decode-op $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn decode-op (op)
-            match op
-              (:states cursor value)
-                app.types/Op :states
-                  decode-map-as cursor $ List respo.schema/CoordKey
-                  , value
-              (:content text)
-                if (string? text) (app.types/Op :content text) (raise |Expected-content-String)
-              (:hydrate-storage data)
-                app.types/Op :hydrate-storage $ decode-store data
-              (:tick time)
-                if (number? time) (app.types/Op :tick time) (raise |Expected-tick-Number)
-              _ $ raise |Unknown-application-operation
-          :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> app.types/Op) (:open :decode)
         'decode-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-store (data)
             decode-map-as
@@ -385,10 +368,6 @@
             :link String
           :examples $ []
           :schema $ quote StructDef
-        'DispatchOp $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def DispatchOp (:: :unhandled)
-          :examples $ []
-          :schema $ quote AnyEnum
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
             :states (List respo.schema/CoordKey) Dynamic
