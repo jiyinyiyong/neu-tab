@@ -13,14 +13,12 @@ SSR 页面先用默认状态接管服务端 HTML，再恢复并渲染存档，�
 异常存档应先备份并修复，不要清空浏览器数据，不把字段校验当作自动恢复机制。
 原一次性 tick（1ms）、保存（60ms）和离页保存保持原行为，不改为循环计时器。
 
-CLI 与 runtime 配对使用正式 **0.38.0**，并同步 Respo 0.19.5、UI 0.15.2、
+CLI 与 runtime 配对使用正式 **0.40.0**，并同步 Respo 0.19.5、UI 0.15.2、
 Reel 0.11.0 和 js-ffi 0.2.13。请重启开发服务并完整刷新；基础样式来自更新后的 Respo UI。
 时钟与恢复直接派发具名操作，Reel 控制通过 union 分流。组件状态路径校验 Respo 的
 `CoordKey`，已有存档字段和状态数据沿用原解码路径。
 快捷入口的可选图标使用 Option，浏览器 DOM 和存储使用受检接口。
-Day.js 日期对象受检，唯有默认导出（带 `extend` 方法的函数）在 `app.ffi/init-dayjs!`
-保留一处外部合同断言，因当前 `js-cast` 不接受可调用函数对象。它没有伪造普通业务类型，
-跟踪 [上游 callable host 支持](https://github.com/calcit-lang/calcit/issues/2153)。
+Day.js 日期对象和带 `extend` 方法的默认导出均使用受检的 JS 宿主接口。
 
 CI 保留 Caps 严格解析、浏览器/SSR 构建、原部署门禁，替换已退役的 `check-public`，
 并执行完整 strict。没有新增测试套件、质量基线、concurrently 或 COS 验证脚本；
@@ -28,7 +26,7 @@ CI 保留 Caps 严格解析、浏览器/SSR 构建、原部署门禁，替换已
 
 ### Development and deployment
 
-Use the paired formal Calcit/procs 0.38.0, Node.js 24 and Yarn 4.18.0. Source and dependency files
+Use the paired formal Calcit/procs 0.40.0, Node.js 24 and Yarn 4.18.0. Source and dependency files
 are `calcit.cirru` and `deps.cirru`; do not restore `compact.cirru` or
 `package.cirru`.
 

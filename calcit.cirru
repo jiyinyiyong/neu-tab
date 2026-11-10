@@ -197,7 +197,7 @@
         'init-dayjs! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn init-dayjs! ()
             let
-                factory $ unsafe-coerce dayjs 'app.ffi/DayjsFactory
+                factory $ js-cast dayjs 'app.ffi/DayjsFactory
               factory .extend weekOfYear
             , &unit
           :examples $ []
