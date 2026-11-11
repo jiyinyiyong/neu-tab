@@ -26,8 +26,8 @@
                 comp-time $ :time store
                 comp-kits
                 if dev?
-                  Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control!
-                  Option :none
+                  Some $ comp-typed-reel (>> states :reel) reel ({}) on-control!
+                  , None
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State app.types/Op app.types/StoreData)
             Fn reel.typed/Control $ -> Unit
@@ -141,17 +141,17 @@
         'quick-apps $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def quick-apps
             []
-              app.types/AppData :name "|Tiye Index" :key :tiye-index :icon (Option :none) :link |https://fx.nioint.com/pages/tiye-index/
-              app.types/AppData :name "|EDN Formatter" :key :edn-formatter :icon (Option :some |edn-formatter.png) :link |https://repo.tiye.me/mvc-works/edn-formatter/
-              app.types/AppData :name |Copyboard :key :copyboard :icon (Option :some |copyboard.png) :link |http://cp.topix.im
-              app.types/AppData :name "|Diff view" :key :diffview :icon (Option :some |diffview.png) :link |http://r.tiye.me/Memkits/diffview/
-              app.types/AppData :name |Timegrass :key :timegrass :icon (Option :some |timegrass.png) :link |http://timegrass.topix.im/
-              app.types/AppData :name |Woodenlist :key :woodenlist :icon (Option :some |woodenlist.png) :link |http://wood.topix.im
-              app.types/AppData :name |Manuscript :key :manuscript :icon (Option :some |manuscript.png) :link |http://r.tiye.me/Memkits/manuscript/
-              app.types/AppData :name "|Markdown Editor" :key :markdown-editor :icon (Option :some |markdown-editor.png) :link |http://r.tiye.me/Memkits/markdown-editor/
-              app.types/AppData :name "|Mermaid Clean" :key :mermaid-clean :icon (Option :some |mermaid-clean.png) :link |http://r.tiye.me/worktools/mermaid-clean/
-              app.types/AppData :name "|Sedum Slide" :key :sedum-slide :icon (Option :some |sedum-icon.png) :link |http://r.tiye.me/Memkits/sedum-slide/
-              app.types/AppData :name "|Calcit Editor" :key :calcit :icon (Option :some |cirru.png) :link |http://calcit-editor.cirru.org
+              app.types/AppData :name "|Tiye Index" :key :tiye-index :icon None :link |https://fx.nioint.com/pages/tiye-index/
+              app.types/AppData :name "|EDN Formatter" :key :edn-formatter :icon (Some |edn-formatter.png) :link |https://repo.tiye.me/mvc-works/edn-formatter/
+              app.types/AppData :name |Copyboard :key :copyboard :icon (Some |copyboard.png) :link |http://cp.topix.im
+              app.types/AppData :name "|Diff view" :key :diffview :icon (Some |diffview.png) :link |http://r.tiye.me/Memkits/diffview/
+              app.types/AppData :name |Timegrass :key :timegrass :icon (Some |timegrass.png) :link |http://timegrass.topix.im/
+              app.types/AppData :name |Woodenlist :key :woodenlist :icon (Some |woodenlist.png) :link |http://wood.topix.im
+              app.types/AppData :name |Manuscript :key :manuscript :icon (Some |manuscript.png) :link |http://r.tiye.me/Memkits/manuscript/
+              app.types/AppData :name "|Markdown Editor" :key :markdown-editor :icon (Some |markdown-editor.png) :link |http://r.tiye.me/Memkits/markdown-editor/
+              app.types/AppData :name "|Mermaid Clean" :key :mermaid-clean :icon (Some |mermaid-clean.png) :link |http://r.tiye.me/worktools/mermaid-clean/
+              app.types/AppData :name "|Sedum Slide" :key :sedum-slide :icon (Some |sedum-icon.png) :link |http://r.tiye.me/Memkits/sedum-slide/
+              app.types/AppData :name "|Calcit Editor" :key :calcit :icon (Some |cirru.png) :link |http://calcit-editor.cirru.org
           :examples $ []
           :schema $ quote $ List app.types/AppData
       :ns $ %{} 'NsEntry (:doc |)
@@ -168,7 +168,7 @@
       :defs $ {}
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def dev?
-            = |dev $ option:unwrap-or (get-env |mode) |release
+            = |dev $ .unwrap-or (get-env |mode) |release
           :examples $ []
           :schema $ quote Bool
         'site $ %{} 'CodeEntry (:doc |)
@@ -210,7 +210,7 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (schema/new-reel)
           :examples $ []
-          :schema $ quote $ Ref (reel.typed/State app.types/Op app.types/StoreData)
+          :schema $ quote $ Ref (typed/State app.types/Op app.types/StoreData)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op) (dispatch-resolved! op)
           :examples $ []
@@ -256,7 +256,7 @@
         'on-control! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn on-control! (control) (dispatch-resolved! control)
           :examples $ []
-          :schema $ quote $ Fn reel.typed/Control (-> Unit)
+          :schema $ quote $ Fn typed/Control (-> Unit)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             browser/storage-set! (:storage-key config/site)
@@ -299,7 +299,7 @@
       :defs $ {}
         'app $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def app
-            app.types/AppData :key :tiye :name "|Tiye Index" :icon (Option :none) :link |https://fx.nioint.com/pages/tiye-index/
+            app.types/AppData :key :tiye :name "|Tiye Index" :icon None :link |https://fx.nioint.com/pages/tiye-index/
           :examples $ []
           :schema $ quote app.types/AppData
         'decode-store $ %{} 'CodeEntry (:doc |)
@@ -319,7 +319,7 @@
                 reel.typed/State app.types/Op app.types/StoreData
           :examples $ []
           :schema $ quote $ Fn
-            -> $ reel.typed/State app.types/Op app.types/StoreData
+            -> $ typed/State app.types/Op app.types/StoreData
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             app.types/StoreData :states ({}) :content | :time 0
@@ -369,11 +369,7 @@
           :examples $ []
           :schema $ quote StructDef
         'Op $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defenum Op
-            :states (List respo.schema/CoordKey) Dynamic
-            :content String
-            :hydrate-storage app.types/StoreData
-            :tick Number
+          :code $ quote $ defenum Op (:content String) (:hydrate-storage app.types/StoreData) (:tick Number)
           :examples $ []
           :schema $ quote EnumDef
         'ResolvedOp $ %{} 'CodeEntry (:doc |)
@@ -398,8 +394,6 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn updater (store op op-id op-time)
             match op
-              (:states cursor s)
-                schema/decode-store $ update-states store cursor s
               (:content c) (assoc store :content c)
               (:hydrate-storage d) d
               (:tick t) (assoc store :time t)
@@ -408,6 +402,3 @@
           :schema $ quote $ Fn app.types/StoreData app.types/Op String Number (-> app.types/StoreData)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
-          :require
-            respo.cursor :refer $ update-states
-            app.schema :as schema
