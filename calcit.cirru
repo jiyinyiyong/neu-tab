@@ -214,7 +214,7 @@
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op) (dispatch-resolved! op)
           :examples $ []
-          :schema $ quote $ Fn app.types/Op (-> Unit)
+          :schema $ quote $ Fn app.types/Op (-> Unit) (:features :io :state)
         'dispatch-resolved! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch-resolved! (op)
             reset! *reel $ match op
@@ -224,7 +224,7 @@
                   :timestamp $ shared/date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ quote $ Fn app.types/ResolvedOp (-> Unit)
+          :schema $ quote $ Fn app.types/ResolvedOp (-> Unit) (:features :io :state)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (ffi/init-dayjs!)
             println |Running-mode: $ if config/dev? |dev |release
@@ -245,7 +245,7 @@
             dispatch! $ app.types/Op :tick $ :timestamp (shared/date-now-snapshot)
             println |App-started.
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
             match (dom/query-selector |.app)
@@ -256,25 +256,25 @@
         'on-control! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn on-control! (control) (dispatch-resolved! control)
           :examples $ []
-          :schema $ quote $ Fn typed/Control (-> Unit)
+          :schema $ quote $ Fn typed/Control (-> Unit) (:features :io :state)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             browser/storage-set! (:storage-key config/site)
               format-cirru-edn $ :store @*reel
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! () (clear-cache!) (remove-watch! *reel :changes)
             add-watch! *reel :changes $ fn (r p) (render-app!)
             reset! *reel $ typed/refresh updater @*reel schema/store
             println |Code-updated.
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             with-memo-frame $ fn () $ render! (mount-target) (comp-container @*reel on-control!) dispatch!
           :examples $ []
-          :schema $ quote $ Fn (-> Unit)
+          :schema $ quote $ Fn (-> Unit) (:features :io :state)
         'ssr? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn ssr? ()
             .some? $ dom/query-selector |div[data-ssr]
@@ -308,7 +308,7 @@
               if (struct? data) (&struct:to-map data) data
               , 'app.types/StoreData
           :examples $ []
-          :schema $ quote $ Fn Dynamic (-> app.types/StoreData)
+          :schema $ quote $ Fn Dynamic (-> app.types/StoreData) (:open :decode)
         'new-reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn new-reel ()
             let
@@ -333,11 +333,11 @@
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! () (ffi/init-dayjs!) (render-page!)
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! () (render-page!)
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'render-page! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-page! ()
             let
@@ -349,7 +349,7 @@
               node/write-text! p new-html
               println "|Wrote to" p
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.ssr
           :require
@@ -399,6 +399,6 @@
               (:tick t) (assoc store :time t)
               _ $ do (eprintln "|unknown op:" op) store
           :examples $ []
-          :schema $ quote $ Fn app.types/StoreData app.types/Op String Number (-> app.types/StoreData)
+          :schema $ quote $ Fn app.types/StoreData app.types/Op String Number (-> app.types/StoreData) (:features :io)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
