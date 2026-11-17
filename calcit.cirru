@@ -32,6 +32,7 @@
           :schema $ quote $ Fn (reel.typed/State app.types/Op app.types/StoreData)
             Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
+            :features :state
         'comp-ssr $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-ssr (reel)
             let
@@ -272,7 +273,9 @@
           :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            with-memo-frame $ fn () $ render! (mount-target) (comp-container @*reel on-control!) dispatch!
+            with-memo-frame $ fn () $ render! (mount-target)
+              comp-container @*reel $ fn (op) (on-control! op)
+              , dispatch!
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :io :state)
         'ssr? $ %{} 'CodeEntry (:doc |)
@@ -397,8 +400,7 @@
               (:content c) (assoc store :content c)
               (:hydrate-storage d) d
               (:tick t) (assoc store :time t)
-              _ $ do (eprintln "|unknown op:" op) store
           :examples $ []
-          :schema $ quote $ Fn app.types/StoreData app.types/Op String Number (-> app.types/StoreData) (:features :io)
+          :schema $ quote $ Fn app.types/StoreData app.types/Op String Number (-> app.types/StoreData)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
