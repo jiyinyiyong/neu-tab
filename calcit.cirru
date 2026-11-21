@@ -57,11 +57,11 @@
                 <>
                   str $ .format now |dddd
                   {} (:font-size 40) (:font-weight 300) (:margin-bottom 8)
-                =< 8 nil
+                space-x 8
                 <>
                   format-week $ now .week
                   {} $ :margin-bottom 26
-                =< 24 nil
+                space-x 24
                 <>
                   str $ .format now |HH:mm
                   {} (:font-size 100) (:font-weight 100) (:line-height |120px)
@@ -80,7 +80,7 @@
             respo-ui.core :as ui
             respo-ui.css :as css
             respo.core :refer $ defcomp >> <> div button textarea span
-            respo.comp.space :refer $ =<
+            respo.comp.space :refer $ space-x
             app.config :refer $ dev?
             app.comp.kits :refer $ comp-kits
             |dayjs :default dayjs
