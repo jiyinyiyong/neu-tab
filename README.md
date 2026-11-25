@@ -6,15 +6,15 @@ Neu Page
 
 ### 本次迁移对使用者的影响
 
-快捷入口、外部图标/字体、时钟和扩展打包方式不变。仍使用 `neu-page` 本地存储键，
+快捷入口、外部图标/字体和扩展打包方式不变；时钟在刷新后持续更新。仍使用 `neu-page` 本地存储键，
 兼容原 Map 和 Struct 存档；恢复时检查页面状态字段，损坏数据会明确报错。
 SSR 页面先用默认状态接管服务端 HTML，再恢复并渲染存档，最后注册保存回调；
 非 SSR 页面直接先恢复再渲染。恢复失败不再留下会用初始值覆盖原存档的保存回调。
 异常存档应先备份并修复，不要清空浏览器数据，不把字段校验当作自动恢复机制。
-原一次性 tick（1ms）、保存（60ms）和离页保存保持原行为，不改为循环计时器。
+时钟每秒更新；原一次性保存（60ms）和离页保存保持原行为。
 
-CLI 与 runtime 配对使用正式 **0.44.0**，并同步 Respo 0.19.13、UI 0.15.7、
-Reel 0.11.5 和 js-ffi 0.2.19。请重启开发服务并完整刷新；基础样式来自更新后的 Respo UI。
+CLI 与 runtime 配对使用正式 **0.45.1**，并同步 Respo 0.19.18、UI 0.16.5、
+Reel 0.11.9 和 js-ffi 0.2.24。请重启开发服务并完整刷新；基础样式来自更新后的 Respo UI。
 时钟与恢复直接派发具名操作，Reel 控制通过 union 分流。组件状态路径校验 Respo 的
 `CoordKey`，已有存档字段和状态数据沿用原解码路径。
 快捷入口的可选图标使用 Option，浏览器 DOM 和存储使用受检接口。
@@ -26,7 +26,7 @@ CI 保留 Caps 严格解析、浏览器/SSR 构建、原部署门禁，替换已
 
 ### Development and deployment
 
-Use the paired formal Calcit/procs 0.44.0, Node.js 24 and Yarn 4.18.0. Source and dependency files
+Use the paired formal Calcit/procs 0.45.1, Node.js 24 and Yarn 4.18.0. Source and dependency files
 are `calcit.cirru` and `deps.cirru`; do not restore `compact.cirru` or
 `package.cirru`.
 
@@ -63,7 +63,7 @@ only runs on main pushes. Existing externally hosted fonts, logos and all
 
 `yarn crx` still packages the extension with the original manifest/icon and
 forces relative frontend asset URLs even if a CDN base is set.
-The original one-shot tick (1ms), save (60ms), unload save and `neu-page`
+The clock updates every second; the original one-shot save (60ms), unload save and `neu-page`
 storage key are preserved; this migration does not introduce recurring timers.
 
 ### Workflow

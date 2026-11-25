@@ -241,8 +241,10 @@
             listen-devtools! |a on-control!
             browser/add-event-listener! |beforeunload $ fn (event) (persist-storage!)
             timeout-call 60 persist-storage!
-            timeout-call 1 $ fn () $ dispatch!
-              app.types/Op :tick $ :timestamp $ shared/date-now-snapshot
+            browser/set-interval!
+              fn () $ dispatch! $ app.types/Op :tick
+                :timestamp $ shared/date-now-snapshot
+              , 1000
             dispatch! $ app.types/Op :tick $ :timestamp (shared/date-now-snapshot)
             println |App-started.
           :examples $ []
