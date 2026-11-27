@@ -13,8 +13,8 @@ SSR 页面先用默认状态接管服务端 HTML，再恢复并渲染存档，�
 异常存档应先备份并修复，不要清空浏览器数据，不把字段校验当作自动恢复机制。
 时钟每秒更新；原一次性保存（60ms）和离页保存保持原行为。
 
-CLI 与 runtime 配对使用正式 **0.45.1**，并同步 Respo 0.19.18、UI 0.16.5、
-Reel 0.11.9 和 js-ffi 0.2.24。请重启开发服务并完整刷新；基础样式来自更新后的 Respo UI。
+CLI 与 runtime 配对使用正式 **0.46.0**，并同步 Respo 0.20.0、UI 0.16.6、
+Reel 0.11.10 和 js-ffi 0.2.26。请重启开发服务并完整刷新；基础样式来自更新后的 Respo UI。
 时钟与恢复直接派发具名操作，Reel 控制通过 union 分流。组件状态路径校验 Respo 的
 `CoordKey`，已有存档字段和状态数据沿用原解码路径。
 快捷入口的可选图标使用 Option，浏览器 DOM 和存储使用受检接口。
@@ -26,7 +26,7 @@ CI 保留 Caps 严格解析、浏览器/SSR 构建、原部署门禁，替换已
 
 ### Development and deployment
 
-Use the paired formal Calcit/procs 0.45.1, Node.js 24 and Yarn 4.18.0. Source and dependency files
+Use the paired formal Calcit/procs 0.46.0, Node.js 24 and Yarn 4.18.0. Source and dependency files
 are `calcit.cirru` and `deps.cirru`; do not restore `compact.cirru` or
 `package.cirru`.
 
